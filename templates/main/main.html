@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/main/main.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="hero-section">
+        <h2>여러분의 Django 프로젝트에 오신 것을 환영합니다!</h2>
+        <p>이것은 base.html을 상속받은 메인 페이지입니다. 모든 것이 완벽하게 작동하고 있습니다.</p>
+        <a href="#" class="btn btn-primary">시작하기</a>
+    </section>
+
+    <section class="feature-grid">
+        <div class="feature-card">
+            <h3>코드 스타일 통일</h3>
+            <p>Pre-commit 훅을 통해 모든 팀원의 코드 스타일을 Black과 isort로 자동 정리합니다.</p>
+        </div>
+        <div class="feature-card">
+            <h3>안정적인 환경</h3>
+            <p>가상 환경과 requirements.txt로 모든 개발 환경을 동일하게 유지합니다.</p>
+        </div>
+        <div class="feature-card">
+            <h3>규칙적인 커밋</h3>
+            <p>Conventional Commits 규칙을 적용하여 모든 변경 사항을 명확하게 기록합니다.</p>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

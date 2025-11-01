@@ -1,0 +1,53 @@
+/* main.css (메인 페이지 고유 스타일) */
+
+/* --- main.html 전용 스타일 (Hero 및 Feature) --- */
+
+.hero-section {
+    /* 버튼 스타일은 base.css에서 상속받아 사용합니다. */
+    background-color: #f0f2f5;
+    padding: 80px 30px;
+    margin-bottom: 50px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+.hero-section h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+.hero-section p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+    line-height: 1.8;
+}
+
+/* 그리드 레이아웃 설정 */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 50px;
+}
+.feature-card {
+    background-color: #ffffff;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+.feature-card h3 {
+    font-size: 1.7rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+.feature-card p {
+    font-size: 1rem;
+    color: #666;
+}

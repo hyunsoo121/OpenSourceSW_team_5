@@ -1,0 +1,46 @@
+/* reset.css */
+
+/* 모든 요소의 마진과 패딩을 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 레이아웃 계산을 직관적으로 만듦 */
+}
+
+/* HTML5 블록 요소의 display 속성 일관화 */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+/* 폰트 스타일 상속 및 기본 폰트 설정 */
+body {
+    line-height: 1;
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    background-color: #f4f4f9; /* 배경색 초기화 (선택 사항) */
+    color: #333; /* 텍스트 색상 초기화 (선택 사항) */
+}
+
+/* 리스트 스타일 제거 */
+ul, ol {
+    list-style: none;
+}
+
+/* 테이블의 경계선 모델 초기화 */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 링크의 밑줄 제거 */
+a {
+    text-decoration: none;
+    color: inherit; /* 부모 요소의 색상을 상속받게 함 */
+}
+
+/* 폼 요소의 스타일 초기화 (선택 사항) */
+input, select, textarea {
+    font-size: 100%;
+    margin: 0;
+    vertical-align: baseline;
+}

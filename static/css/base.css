@@ -1,0 +1,100 @@
+/* base.css (프로젝트 공통 스타일 및 컴포넌트 기본값) */
+
+/* 1. 기본 타이포그래피 및 레이아웃 설정 (기존 내용 유지) */
+body {
+    background-color: #f8f9fa;
+    color: #343a40;
+    line-height: 1.6;
+    font-size: 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 2. 링크 스타일 (기존 내용 유지) */
+a {
+    color: #007bff;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* 3. 헤더/네비게이션 스타일 (기존 내용 유지) */
+header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+/* ... (헤더 nav, h1 등 나머지 기본 스타일) */
+
+/* 4. 메인 콘텐츠 컨테이너 스타일 (기존 내용 유지) */
+main {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 1200px;
+    width: 90%;
+    margin: 20px auto;
+}
+
+/* 5. 푸터 스타일 (기존 내용 유지) */
+footer {
+    background-color: #e9ecef;
+    color: #6c757d;
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px solid #dee2e6;
+    margin-top: auto;
+    font-size: 0.85rem;
+}
+
+
+/* --- ⭐⭐ 공통 컴포넌트 스타일 시작 ⭐⭐ --- */
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* 폼 필드 기본 스타일 */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

@@ -1,0 +1,33 @@
+/* signup.css */
+
+.signup-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.signup-section h2 {
+    color: #333;
+}
+
+.signup-section form {
+    margin-top: 20px;
+}
+
+.signup-section label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.signup-section input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.signup-section button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}

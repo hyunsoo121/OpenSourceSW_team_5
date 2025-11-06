@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/user/login.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="login-section">
+        <h2>로그인</h2>
+        <form method="post" action="/user/login/">
+            <label for="username">사용자 이름:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">로그인</button>
+        </form>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/user/login.js' %}"></script>
+{% endblock %}

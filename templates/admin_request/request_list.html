@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_request/request_list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="request-list-section">
+        <h2>관리자 요청 목록</h2>
+        <ul>
+            <li><a href="/admin-request/detail/1">요청 1</a></li>
+            <li><a href="/admin-request/detail/2">요청 2</a></li>
+            <li><a href="/admin-request/detail/3">요청 3</a></li>
+        </ul>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admin_request/request_list.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,33 @@
+/* login.css */
+
+.login-section {
+    background-color: #fff;
+    padding: 20px;
+}
+
+.login-section h2 {
+    color: #444;
+}
+
+.login-section form {
+    margin-top: 20px;
+}
+
+.login-section label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.login-section input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.login-section button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}

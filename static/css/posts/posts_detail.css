@@ -1,0 +1,16 @@
+/* posts_detail.css */
+
+.hero-section {
+    background-color: #fff;
+    padding: 20px;
+}
+
+.hero-section h2 {
+    color: #444;
+}
+
+.hero-section div {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}

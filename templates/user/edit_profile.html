@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/user/edit_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="edit-profile-section">
+        <h2>회원정보 수정</h2>
+        <form method="post" action="/user/edit-profile/">
+            <label for="username">사용자 이름:</label>
+            <input type="text" id="username" name="username" value="현재 사용자 이름" required>
+
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" value="현재 이메일" required>
+
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password">
+
+            <button type="submit">수정하기</button>
+        </form>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/user/edit_profile.js' %}"></script>
+{% endblock %}

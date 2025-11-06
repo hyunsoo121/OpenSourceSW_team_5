@@ -1,0 +1,16 @@
+/* request_detail.css */
+
+.request-detail-section {
+    background-color: #fff;
+    padding: 20px;
+}
+
+.request-detail-section h2 {
+    color: #444;
+}
+
+.request-detail-section div {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}

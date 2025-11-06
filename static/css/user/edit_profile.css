@@ -1,0 +1,33 @@
+/* edit_profile.css */
+
+.edit-profile-section {
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.edit-profile-section h2 {
+    color: #222;
+}
+
+.edit-profile-section form {
+    margin-top: 20px;
+}
+
+.edit-profile-section label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.edit-profile-section input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.edit-profile-section button {
+    background-color: #17a2b8;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}

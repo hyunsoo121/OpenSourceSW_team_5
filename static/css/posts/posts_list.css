@@ -1,0 +1,19 @@
+/* posts_list.css */
+
+.hero-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.hero-section h2 {
+    color: #333;
+}
+
+.hero-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.hero-section ul li {
+    margin: 10px 0;
+}

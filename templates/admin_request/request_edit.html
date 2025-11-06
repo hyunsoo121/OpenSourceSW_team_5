@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_request/request_edit.css' %}">
+{% endblock %}
+
+{% block content %}
+    <section class="request-edit-section">
+        <h2>관리자 요청 수정</h2>
+        <form method="post" action="/admin-request/edit/{{ request_id }}/">
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title" value="{{ title }}" required>
+
+            <label for="content">내용:</label>
+            <textarea id="content" name="content" rows="5" required>{{ content }}</textarea>
+
+            <button type="submit">수정하기</button>
+        </form>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admin_request/request_edit.js' %}"></script>
+{% endblock %}

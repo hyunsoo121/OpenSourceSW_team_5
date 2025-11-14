@@ -6,4 +6,6 @@ from . import views
 urlpatterns = [
     # 루트 경로 ('/')에 접속하면 views.index 함수가 실행됩니다.
     path("", views.main, name="home"),
+    path("list/", views.listPage, name="list"),
+    path("detail/", views.detailPage, name="detail")
 ]

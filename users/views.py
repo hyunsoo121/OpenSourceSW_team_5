@@ -2,10 +2,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, EditProfileForm
 
 
 # 회원가입 페이지 렌더링 및 로직 처리
@@ -45,8 +46,18 @@ def login(request):
 
 
 # 회원정보 수정 페이지 렌더링
+@login_required
 def edit_profile(request):
-    return render(request, "user/edit_profile.html")
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "프로필이 업데이트되었습니다.")
+            return redirect("edit_profile")
+    else:
+        form = EditProfileForm(instance=request.user)
+
+    return render(request, "user/edit_profile.html", {"form": form})
 
 
 def logout_view(request):

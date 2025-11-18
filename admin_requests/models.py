@@ -3,8 +3,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .models import Post  # Post 모델을 참조하기 위해 필요
-
 
 class AdminRequest(models.Model):
     """
@@ -29,8 +27,9 @@ class AdminRequest(models.Model):
         verbose_name="요청자",
     )
 
+    # 'posts.Post' 문자열 참조를 사용하여 순환 import(모듈 초기화 문제)를 피합니다.
     target_post = models.ForeignKey(
-        Post,
+        "posts.Post",
         on_delete=models.SET_NULL,
         related_name="related_requests",
         null=True,

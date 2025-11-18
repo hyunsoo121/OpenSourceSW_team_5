@@ -44,63 +44,75 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(username, email, nickname, password, **extra_fields)
 
 
+# 2. 커스텀 사용자 모델 정의
 class User(AbstractBaseUser, PermissionsMixin):
 
+    # 선택 필드 Choices 정의
     INTEREST_CHOICES = [
         ("PM", "프로젝트/제품 관리 (PM)"),
         ("DESIGN", "디자인"),
         ("FRONTEND", "프론트엔드"),
         ("BACKEND", "백엔드"),
     ]
-
     AFFILIATION_CHOICES = [
         ("STUDENT", "대학생"),
         ("GRADUATE", "졸업생"),
         ("WORKER", "직장인"),
     ]
-
     LEVEL_CHOICES = [
         ("NOVICE", "초심자"),
         ("INTERMEDIATE", "중급자"),
         ("ADVANCED", "고급자"),
     ]
 
+    # 모델 필드 정의
     id = models.AutoField(primary_key=True)
-
     username = models.CharField(max_length=150, unique=True, verbose_name="아이디")
-
     nickname = models.CharField(max_length=50, unique=True, verbose_name="닉네임")
-
     email = models.EmailField(max_length=255, unique=True, verbose_name="이메일")
 
-    # 관심분야
     interest_field = models.CharField(
         max_length=10,
         choices=INTEREST_CHOICES,
         default="FRONTEND",
         verbose_name="관심분야",
     )
-
-    # 소속
     affiliation = models.CharField(
         max_length=10,
         choices=AFFILIATION_CHOICES,
         default="STUDENT",
         verbose_name="소속",
     )
-
     dev_level = models.CharField(
         max_length=15, choices=LEVEL_CHOICES, default="NOVICE", verbose_name="개발 레벨"
     )
 
+    # Django 인증 시스템 필수 필드
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
     date_joined = models.DateTimeField(default=timezone.now, verbose_name="가입일")
 
     objects = CustomUserManager()
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email", "nickname"]
+
+    # ERROR FIX: 기본 auth.User와의 역참조(Reverse Accessor) 충돌 해결
+    groups = models.ManyToManyField(
+        "auth.Group",
+        verbose_name="groups",
+        blank=True,
+        help_text="The groups this user belongs to.",
+        related_name="custom_user_set",  # 고유한 related_name 지정
+        related_query_name="user",
+    )
+    user_permissions = models.ManyToManyField(
+        "auth.Permission",
+        verbose_name="user permissions",
+        blank=True,
+        help_text="Specific permissions for this user.",
+        related_name="custom_user_permissions_set",  # 고유한 related_name 지정
+        related_query_name="user",
+    )
 
     class Meta:
         db_table = "users"

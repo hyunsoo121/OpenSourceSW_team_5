@@ -28,3 +28,26 @@ class CustomUserCreationForm(UserCreationForm):
         # required=False가 될 수 있어 명시적으로 True로 설정합니다.
         self.fields["email"].required = True
         self.fields["nickname"].required = True
+
+
+class EditProfileForm(forms.ModelForm):
+    """사용자 정보 수정 폼: username, password는 제외하고 수정 가능하도록 함"""
+
+    class Meta:
+        model = User
+        fields = (
+            "nickname",
+            "email",
+            "interest_field",
+            "affiliation",
+            "dev_level",
+        )
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        # 이메일 중복 체크: 본인 제외
+        if email:
+            qs = User.objects.filter(email__iexact=email).exclude(pk=self.instance.pk)
+            if qs.exists():
+                raise forms.ValidationError("이미 사용 중인 이메일입니다.")
+        return email

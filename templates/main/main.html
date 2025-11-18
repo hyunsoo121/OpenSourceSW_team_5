@@ -1,34 +1,109 @@
-{% extends "base.html" %}
 {% load static %}
 
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/main/main.css' %}">
-{% endblock %}
 
-{% block content %}
-    <section class="hero-section">
-        <h2>여러분의 Django 프로젝트에 오신 것을 환영합니다!</h2>
-        <p>이것은 base.html을 상속받은 메인 페이지입니다. 모든 것이 완벽하게 작동하고 있습니다.</p>
-        <a href="#" class="btn btn-primary">시작하기</a>
-    </section>
+<!doctype html>
+<html lang="ko">
 
-    <section class="feature-grid">
-        <div class="feature-card">
-            <h3>코드 스타일 통일</h3>
-            <p>Pre-commit 훅을 통해 모든 팀원의 코드 스타일을 Black과 isort로 자동 정리합니다.</p>
-        </div>
-        <div class="feature-card">
-            <h3>안정적인 환경</h3>
-            <p>가상 환경과 requirements.txt로 모든 개발 환경을 동일하게 유지합니다.</p>
-        </div>
-        <div class="feature-card">
-            <h3>규칙적인 커밋</h3>
-            <p>Conventional Commits 규칙을 적용하여 모든 변경 사항을 명확하게 기록합니다.</p>
-        </div>
-    </section>
-{% endblock %}
 
-{% block extra_js %}
-<script src="{% static 'js/main/main.js' %}"></script>
-{% endblock %}
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>ITformation</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/main/main.css' %}" />
+</head>
+<body>
+	<header class="site-header container">
+		<h1 class="brand">ITformation</h1>
+		<p class="subtitle">IT 관련 모든 정보를 제공합니다.</p>
+		<div class="cta-row">
+			<a class="btn primary" href="#features">로그아웃</a>
+			<a class="btn" href="#sections">마이페이지</a>
+            <a class="btn" href="#sections">관리자 요청</a>
+		</div>
+		<figure class="hero">
+			<img src="images/hero.jpg" alt="기술 배경 이미지">
+		</figure>
+	</header>
+
+	<main>
+<section id="mid-body" class="container mid">
+	<!-- 1행: 텍스트 | 이미지 -->
+	<div class="mid__row">
+		<div class="mid__text">
+			<h2>사용자 추천 기능</h2>
+			<p>사용자를 자동 분석하여 개인화 추천을 제공합니다.</p>
+			<a class="btn tiny" href="#">알아보기</a>
+		</div>
+		<figure class="mid__media">
+			<img src="images/card-1.jpg" alt="추천 기능 이미지">
+		</figure>
+	</div>
+
+	<!-- 2행: 이미지 | 텍스트 -->
+	<div class="mid__row reverse">
+		<figure class="mid__media">
+			<img src="images/card-2.jpg" alt="IT 동아리 활동">
+		</figure>
+		<div class="mid__text">
+			<h3>IT 관련 동아리 활동</h3>
+			<p>활동 소개와 참가 정보를 한눈에.</p>
+			<a class="btn tiny" href="#">자세히</a>
+		</div>
+	</div>
+
+	<!-- 3행: 텍스트 | 이미지 -->
+	<div class="mid__row">
+		<div class="mid__text">
+			<h3>부트캠프</h3>
+			<p>집중 커리큘럼으로 실무 역량을 키워보세요.</p>
+			<a class="btn tiny" href="#">신청하기</a>
+		</div>
+		<figure class="mid__media">
+			<img src="images/card-3.jpg" alt="부트캠프 이미지">
+		</figure>
+	</div>
+
+	<!-- 4행: 이미지 | 텍스트 -->
+	<div class="mid__row reverse">
+		<figure class="mid__media">
+			<img src="images/card-4.jpg" alt="국비교육 이미지">
+		</figure>
+		<div class="mid__text">
+			<h3>국비교육</h3>
+			<p>정부 지원으로 부담을 낮춘 교육 과정.</p>
+			<a class="btn tiny" href="#">확인하기</a>
+		</div>
+	</div>
+</section>
+	</main>
+
+	<footer class="site-footer">
+		<div class="container footer-grid">
+			<div>
+				<h4>Here text</h4>
+				<p>위젯이나 안내문, 소개문을 넣어주세요.</p>
+			</div>
+			<div>
+				<h4>There text</h4>
+				<p>키워드 중심의 소개 문구 및 링크.</p>
+			</div>
+			<div>
+				<h4>Everywhere text</h4>
+				<p>페이지 전반에서 반복 안내하고 싶은 내용.</p>
+			</div>
+		</div>
+		<div class="container footer-meta">
+			<span>ITformation</span>
+			<nav class="meta-links">
+				<a href="#">Features</a>
+				<a href="#">Learn more</a>
+				<a href="#">Support</a>
+			</nav>
+		</div>
+	</footer>
+</body>
+</html>

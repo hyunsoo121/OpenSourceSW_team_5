@@ -15,7 +15,7 @@
                     <li>
                         <a href="{% url 'posts:posts_detail' post.id %}" class="btn btn-sm btn-secondary" style="margin-top: 10px;">
 
-                            {{ post.club_name }} - {{ post.get_type_display }}
+                            {{ post.name }} - {{ post.get_type_display }}
                         </a>
                     </li>
                 {% endfor %}

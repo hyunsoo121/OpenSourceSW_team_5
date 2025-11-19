@@ -17,7 +17,7 @@ class PostAdmin(admin.ModelAdmin):
 
     list_display = (
         "__str__",
-        "club_name",
+        "name",
         "type",
         "author",
         "is_published",
@@ -30,19 +30,6 @@ class PostAdmin(admin.ModelAdmin):
 
     # 🔥🔥 체크박스 저장 핵심 로직 — admin에서만 수행 🔥🔥
     def save_model(self, request, obj, form, change):
-        multi_fields = [
-            "application_months",
-            "activity_months",
-            "eligibility",
-            "recruitment_fields",
-            "required_dev_levels",
-        ]
-
-        for field in multi_fields:
-            # request.POST.getlist()로 체크박스 값 가져오기
-            values = request.POST.getlist(field)
-            setattr(obj, field, ",".join(values) if values else "")
-
         if not obj.pk:
             obj.author = request.user
 

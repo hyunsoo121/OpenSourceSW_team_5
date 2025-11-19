@@ -36,7 +36,7 @@
             <div class="recommendation-grid">
                 {% for post in recommended_posts %}
                     <div class="post-card">
-                        <h4>{{ post.club_name }}</h4>
+                        <h4>{{ post.name }}</h4>
                         <p>{{ post.description|truncatechars:100 }}</p>
                         <p><strong>활동 타입:</strong> {{ post.get_type_display }}</p>
                         <div class="post-meta">

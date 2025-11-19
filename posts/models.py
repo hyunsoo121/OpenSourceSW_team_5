@@ -79,7 +79,7 @@ class Post(models.Model):
         help_text="모집하는 활동의 종류를 선택하세요.",
     )
 
-    club_name = models.CharField(max_length=100, verbose_name="동아리/팀 이름")
+    name = models.CharField(max_length=100, verbose_name="동아리/팀 이름")
 
     # 🔑 1. 동아리 홈페이지 필드 추가
     homepage_link = models.URLField(
@@ -139,7 +139,7 @@ class Post(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"[{self.get_type_display()}] {self.club_name}"  # __str__ 수정
+        return f"[{self.get_type_display()}] {self.name}"  # __str__ 수정
 
     # 콤마 구분 문자열 Display 메서드
     def _get_display_from_charfield(self, field_name, choices):
@@ -199,7 +199,7 @@ class PostReviewLink(models.Model):
     """Post와 1:N 관계를 맺는 활동 후기 링크 모델."""
 
     post = models.ForeignKey(
-        "Post",
+        Post,
         on_delete=models.CASCADE,
         related_name="reviews",  # Post.reviews.all()로 접근 가능
         verbose_name="모집 공고",
@@ -212,4 +212,4 @@ class PostReviewLink(models.Model):
         verbose_name_plural = "활동 후기 링크 목록"
 
     def __str__(self):
-        return f"[{self.post.club_name}] {self.review_title}"
+        return f"[{self.post.name}] {self.review_title}"

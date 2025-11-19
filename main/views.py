@@ -100,7 +100,7 @@ def main(request: HttpRequest):
         for post in all_posts:
             print("-" * 50)
             print(f"ID: {post.pk}")
-            print(f"동아리 이름: {post.club_name}")
+            print(f"동아리 이름: {post.name}")
             print(f"공개 여부 (is_published): {post.is_published}")
             print(f"모집 분야 (recruitment_fields): {post.recruitment_fields}")
             print(f"지원 기간 (application_months): {post.application_months}")

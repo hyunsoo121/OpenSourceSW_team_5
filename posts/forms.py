@@ -46,7 +46,8 @@ class PostAdminForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = "__all__"
-        help_texts = {k: "" for k in Post._meta.fields}
+        # help_texts expects a mapping of field names to strings
+        help_texts = {f.name: "" for f in Post._meta.fields}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -61,7 +62,28 @@ class PostAdminForm(forms.ModelForm):
 
         if self.instance and self.instance.pk:
             for field in target_fields:
-                raw = getattr(self.instance, field)
-                self.fields[field].initial = (
-                    [v.strip() for v in raw.split(",")] if raw else []
-                )
+                raw = getattr(self.instance, field, None)
+                values = [v.strip() for v in raw.split(",")] if raw else []
+                # set both field initial and form initial to ensure admin shows selections
+                self.fields[field].initial = values
+                self.initial[field] = values
+
+    def clean_application_months(self):
+        data = self.cleaned_data.get("application_months", [])
+        return ",".join(data) if data else ""
+
+    def clean_activity_months(self):
+        data = self.cleaned_data.get("activity_months", [])
+        return ",".join(data) if data else ""
+
+    def clean_eligibility(self):
+        data = self.cleaned_data.get("eligibility", [])
+        return ",".join(data) if data else ""
+
+    def clean_recruitment_fields(self):
+        data = self.cleaned_data.get("recruitment_fields", [])
+        return ",".join(data) if data else ""
+
+    def clean_required_dev_levels(self):
+        data = self.cleaned_data.get("required_dev_levels", [])
+        return ",".join(data) if data else ""

@@ -8,7 +8,9 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     initial = True
 
-    dependencies = []
+    dependencies = [
+        ("posts", "0003_rename_club_name_post_name"),
+    ]
 
     operations = [
         migrations.CreateModel(

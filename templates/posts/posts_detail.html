@@ -8,7 +8,7 @@
 {% block content %}
     <section class="post-detail-container">
         <header class="post-header">
-            <h2>{{ post.club_name }}</h2>
+            <h2>{{ post.name }}</h2>
             <hr>
         </header>
 
@@ -51,7 +51,7 @@
             {% if post.homepage_link %}
             <p>
                 <strong>🏠 홈페이지:</strong>
-                <a href="{{ post.homepage_link }}" target="_blank">{{ post.club_name }} 공식 웹사이트</a>
+                <a href="{{ post.homepage_link }}" target="_blank">{{ post.name }} 공식 웹사이트</a>
             </p>
             {% endif %}
 

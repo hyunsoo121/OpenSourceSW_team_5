@@ -6,14 +6,66 @@
 {% endblock %}
 
 {% block content %}
-    <section class="hero-section">
-        <h2>게시글 상세</h2>
-        <p>여기는 게시글 상세 페이지입니다.</p>
-        <div>
-            <h3>게시글 제목</h3>
-            <p>게시글 내용이 여기에 표시됩니다.</p>
+    <section class="post-detail-container">
+        <header class="post-header">
+            <h2>{{ post.club_name }}</h2>
+            <hr>
+        </header>
+
+        <div class="post-content">
+            <h3>동아리 소개</h3>
+            <p>{{ post.description|linebreaksbr }}</p>
         </div>
-        <a href="/posts">목록으로 돌아가기</a>
+
+        <div class="post-info-box">
+            <h3>✅ 주요 모집 정보</h3>
+            <ul class="info-list">
+                <li>
+                    <strong>모집 분야:</strong>
+                    {{ post.get_recruitment_fields_display }}
+                </li>
+                <li>
+                    <strong>지원 기간:</strong>
+                    {{ post.get_application_months_display }}
+                </li>
+                <li>
+                    <strong>활동 기간:</strong>
+                    {{ post.get_activity_months_display }}
+                </li>
+                <li>
+                    <strong>신청 자격 (소속):</strong>
+                    {{ post.get_eligibility_display }}
+                </li>
+                <li>
+                    <strong>요구 개발 레벨:</strong>
+                    {{ post.get_required_dev_levels_display }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="post-links">
+            {% if post.homepage_link %}
+            <p>
+                <strong>🏠 홈페이지:</strong>
+                <a href="{{ post.homepage_link }}" target="_blank">{{ post.club_name }} 공식 웹사이트</a>
+            </p>
+            {% endif %}
+
+            {% if post.reviews.exists %}
+            <p><strong>🔗 활동 후기 목록 ({{ post.reviews.count }}개)</strong></p>
+            <ul>
+                {% for review in post.reviews.all %}
+                <li>
+                    <a href="{{ review.review_url }}" target="_blank">{{ review.review_title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <footer class="post-footer">
+            <a href="{% url 'posts:posts_list' %}" class="btn btn-secondary">목록으로 돌아가기</a>
+            </footer>
     </section>
 {% endblock %}
 

@@ -9,11 +9,18 @@
     <section class="hero-section">
         <h2>게시판</h2>
         <p>여기는 게시판 목록 페이지입니다.</p>
-        <ul>
-            <li><a href="/posts/detail/1">게시글 1</a></li>
-            <li><a href="/posts/detail/2">게시글 2</a></li>
-            <li><a href="/posts/detail/3">게시글 3</a></li>
-        </ul>
+        {% if posts %}
+            <ul>
+                {% for post in posts %}
+                    <li>
+                        <a href="{% url 'posts:posts_detail' post.id %}" class="btn btn-sm btn-secondary" style="margin-top: 10px;">자세히 보기</a>                            {{ post.club_name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>등록된 게시글이 없습니다.</p>
+        {% endif %}
     </section>
 {% endblock %}
 

@@ -49,10 +49,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # 선택 필드 Choices 정의
     INTEREST_CHOICES = [
-        ("PM", "프로젝트/제품 관리 (PM)"),
+        ("PM", "기획"),
         ("DESIGN", "디자인"),
         ("FRONTEND", "프론트엔드"),
         ("BACKEND", "백엔드"),
+        ("AI_ML", "AI/머신러닝"),
     ]
     AFFILIATION_CHOICES = [
         ("STUDENT", "대학생"),
@@ -96,7 +97,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email", "nickname"]
 
-    # ERROR FIX: 기본 auth.User와의 역참조(Reverse Accessor) 충돌 해결
     groups = models.ManyToManyField(
         "auth.Group",
         verbose_name="groups",

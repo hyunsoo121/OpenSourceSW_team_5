@@ -74,9 +74,18 @@ def main(request: HttpRequest):
 
         print(f"D. 신청 자격 쿼리 (q_eligibility): {q_eligibility}")
 
-        # E. 최종 쿼리 조합:
-        final_query = q_published & q_month & (q_interest | q_eligibility)
-        print(f"\n[ORM 쿼리] 최종 쿼리 조합: {final_query}")
+        # F. 활동 타입 필터링 추가
+        q_activity_type = Q()
+        activity_type = request.GET.get("activity_type")
+        if activity_type:
+            q_activity_type = Q(activity_type=activity_type)
+            print(f"F. 활동 타입 필터링 (q_activity_type): {q_activity_type}")
+
+        # 최종 쿼리 조건에 활동 타입 추가
+        final_query = (
+            q_published & q_month & (q_interest | q_eligibility) & q_activity_type
+        )
+        print(f"\n[ORM 쿼리] 최종 쿼리 조건: {final_query}")
 
         # 쿼리 실행
         recommended_posts = Post.objects.filter(final_query).distinct()

@@ -11,7 +11,6 @@ from django.utils.translation import gettext_lazy as _
 # =================================================================
 
 # 1. 월 선택지 (1월 ~ 12월)
-# 이 상수는 Admin 폼에서 사용됩니다.
 MONTH_CHOICES = [(f"{i}월", f"{i}월") for i in range(1, 13)]
 MONTH_VALUES = [val[0] for val in MONTH_CHOICES]
 
@@ -44,6 +43,15 @@ ELIGIBILITY_CHOICES = [
 ELIGIBILITY_VALUES = [val[0] for val in ELIGIBILITY_CHOICES]
 
 
+# 🔑 5. 활동 타입 Choices 추가
+ACTIVITY_TYPE_CHOICES = [
+    ("CLUB", "동아리"),
+    ("EXTERNAL", "대외활동"),
+    ("BOOTCAMP", "부트캠프"),
+]
+ACTIVITY_TYPE_DEFAULT = "CLUB"
+
+
 # =================================================================
 # Post 모델
 # =================================================================
@@ -62,6 +70,15 @@ class Post(models.Model):
         verbose_name="작성자",
     )
 
+    # 🔑 type 필드 추가
+    type = models.CharField(
+        max_length=10,
+        choices=ACTIVITY_TYPE_CHOICES,
+        default=ACTIVITY_TYPE_DEFAULT,
+        verbose_name="활동 종류",
+        help_text="모집하는 활동의 종류를 선택하세요.",
+    )
+
     club_name = models.CharField(max_length=100, verbose_name="동아리/팀 이름")
 
     # 🔑 1. 동아리 홈페이지 필드 추가
@@ -70,7 +87,6 @@ class Post(models.Model):
     )
 
     # 🔑 2. 월 선택지 기반으로 CharField로 변경 (콤마로 구분된 문자열 저장)
-    # 룩업 시 '11월'과 같은 값이 콤마 사이에 있는지 확인하는 방식으로 사용됩니다.
     application_months = models.CharField(
         max_length=50,  # 최대 12개 월 (5자 * 12 + 콤마)
         verbose_name="지원 기간 (월)",
@@ -123,7 +139,7 @@ class Post(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"[{self.club_name}] 모집 공고"
+        return f"[{self.get_type_display()}] {self.club_name}"  # __str__ 수정
 
     # 콤마 구분 문자열 Display 메서드
     def _get_display_from_charfield(self, field_name, choices):

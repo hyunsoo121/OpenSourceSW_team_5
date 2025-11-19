@@ -38,6 +38,7 @@
                     <div class="post-card">
                         <h4>{{ post.club_name }}</h4>
                         <p>{{ post.description|truncatechars:100 }}</p>
+                        <p><strong>활동 타입:</strong> {{ post.get_type_display }}</p>
                         <div class="post-meta">
                             <span>**모집 분야:** {{ post.recruitment_fields }}</span>
                             <span>**지원 기간:** {{ post.get_application_months_display }}</span>

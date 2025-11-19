@@ -45,11 +45,11 @@ ELIGIBILITY_VALUES = [val[0] for val in ELIGIBILITY_CHOICES]
 
 # 🔑 5. 활동 타입 Choices 추가
 ACTIVITY_TYPE_CHOICES = [
-    ("CLUB", "동아리"),
-    ("EXTERNAL", "대외활동"),
-    ("BOOTCAMP", "부트캠프"),
+    ("club", "동아리"),
+    ("external", "대외활동"),
+    ("bootcamp", "부트캠프"),
 ]
-ACTIVITY_TYPE_DEFAULT = "CLUB"
+ACTIVITY_TYPE_DEFAULT = "club"
 
 
 # =================================================================

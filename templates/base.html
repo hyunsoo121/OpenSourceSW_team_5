@@ -14,14 +14,14 @@
 </head>
 <body>
     <header>
-        <h1><a href="/">My Django Project</a></h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-            </ul>
-        </nav>
+        {% if nickname %}
+            <h1>환영합니다, {{ nickname }}님! 👋</h1>
+            <p><a href="{% url 'logout' %}">로그아웃</a></p>
+        {% else %}
+            <h1>로그인이 필요합니다.</h1>
+            <p><a href="{% url 'login' %}">로그인</a> | <a href="{% url 'signup' %}">회원가입</a></p>
+        {% endif %}
     </header>
-
     <main>
         {% block content %}
         {% endblock %}

@@ -2,20 +2,42 @@
 
 
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-
-
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>ITformation</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="{% static 'css/main/main.css' %}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 요청 페이지</title>
+    <link rel="stylesheet" href="{% static 'css/main/main.css' %}" />
 </head>
 <body>
+    <div class="container">
+        <div class="request-section">
+            <div class="request-box">
+                    <h1>관리자 요청 페이지</h1>
+                <form action="">
+                    <div>
+                        <input type="text" class="input" placeholder="아이디">
+                        <input type="text" class="input" placeholder="이메일(@포함 입력)">
+                    </div>
+                    <div>
+                        <select name="" class="select">
+                            <option value="">동아리 페이지</option>
+                            <option value="">부트캠프 페이지</option>
+                            <option value="">국비교육</option>
+                            <option value="">기타 건의사항</option>
+                        </select>
+                    </div>
+                    <div>
+                        <textarea rows="10" class="textarea" placeholder="내용을 입력하세요." ></textarea>
+                    </div>
+                    <div>
+                        <input type="submit" class="submit" value="제출">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 	<header class="site-header container">
 		<h1 class="brand">ITformation</h1>
 		<p class="subtitle">IT 관련 모든 정보를 제공합니다.</p>

@@ -1,34 +1,114 @@
-/* request_create.css */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.request-create-section {
-    background-color: #f9f9f9;
-    padding: 20px;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            height: 100vh;
+            /*overflow: hidden;*/
+            background-image: url('images/loginimage.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-.request-create-section h2 {
-    color: #333;
-}
+        .container {
+            display: grid;
+            width: 100%;
+            height: 100%;
+            grid-template-columns: minmax(580px, 45%) 1fr;
+        }
 
-.request-create-section form {
-    margin-top: 20px;
-}
+        .request-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            height: 100%;
+            padding-right: 0;
+            padding-left: 80px;
+        }
 
-.request-create-section label {
-    display: block;
-    margin: 10px 0 5px;
-}
+        .request-box {
+            width: 100%;
+            background-color: white;
+            padding: 48px 42px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
 
-.request-create-section input,
-.request-create-section textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-}
+        h1 {
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 28px;
+            color: #333;
+        }
 
-.request-create-section button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-}
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .select {
+            width: 40%;
+            padding: 12px 16px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .submit {
+            width: 20%;
+            padding: 12px 16px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            float: right;
+            text-align: center;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* 반응형: 태블릿 */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .request-section {
+                padding: 40px;
+            }
+        }
+
+        /* 반응형: 모바일 */
+        @media (max-width: 640px) {
+            .request-section {
+                padding: 20px;
+            }
+            .request-box {
+                padding: 32px 24px;
+            }
+        }

@@ -99,8 +99,29 @@
                         <button type="button" class="level-btn" data-level="ADVANCED">고급자</button>
                 </div>
 
-                <!-- 리스트 영역 (부분 템플릿 사용) -->
-                {% include 'posts/_posts_list_container.html' %}
+                <!-- 리스트 영역 (인라인 구현) -->
+                <div id="posts-list-container">
+                    {% if posts and posts.exists %}
+                    <div class="posts-grid">
+                        {% for post in posts %}
+                        <article class="post-card">
+                            <header class="post-card-header">
+                                <h3><a href="{% url 'posts:posts_detail' post.pk %}">{{ post.name }}</a></h3>
+                                <p class="post-meta">{{ post.get_type_display }} · {{ post.get_recruitment_fields_display }}</p>
+                            </header>
+                            <div class="post-card-body">
+                                <p class="post-excerpt">{{ post.description|truncatechars:140 }}</p>
+                            </div>
+                            <footer class="post-card-footer">
+                                <small>지원 기간: {{ post.get_application_months_display }}</small>
+                            </footer>
+                        </article>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <p class="muted">게시글이 없습니다.</p>
+                    {% endif %}
+                </div>
         </section>
 {% endblock %}
 

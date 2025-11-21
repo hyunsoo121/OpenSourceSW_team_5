@@ -146,3 +146,11 @@
   border-top: 2px dashed #e0e0e0;
   margin: 40px 0;
 }
+
+/* --- 9. Posts grid / cards (used by posts_list and AJAX) --- */
+.posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 12px; }
+.post-card { background:#fff; border:1px solid var(--border, #e0e0e0); border-radius:10px; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.03); }
+.post-card-header h3{ margin:0 0 .4rem 0; }
+.post-meta { color:#666; font-size:.9rem; margin:0 0 .6rem 0; }
+.post-excerpt{ color:#444; margin:0 0 .8rem 0; }
+.post-card-footer small{ color:#666; }

@@ -6,17 +6,103 @@
 {% endblock %}
 
 {% block content %}
-    <section class="hero-section">
+    <section class="hero-section" {% if type_code %}data-type="{{ type_code }}"{% endif %}>
         <h2>게시판</h2>
         <p>여기는 게시판 목록 페이지입니다.</p>
-        <ul>
-            <li><a href="/posts/detail/1">게시글 1</a></li>
-            <li><a href="/posts/detail/2">게시글 2</a></li>
-            <li><a href="/posts/detail/3">게시글 3</a></li>
-        </ul>
+
+        <!-- 필터: 라디오 버튼 UI -->
+        <div class="filter-bar" style="margin-bottom: 20px;">
+            <div style="margin-bottom: 10px;">
+                <a href="/posts/" class="filter-page-btn">전체</a>
+                <a href="/posts/type/club/" class="filter-page-btn">동아리</a>
+                <a href="/posts/type/external/" class="filter-page-btn">대외활동</a>
+                <a href="/posts/type/bootcamp/" class="filter-page-btn">부트캠프</a>
+            </div>
+            <span>모집 분야:</span>
+            <button type="button" class="field-btn" data-field="BACKEND">백엔드</button>
+            <button type="button" class="field-btn" data-field="FRONTEND">프론트엔드</button>
+            <button type="button" class="field-btn" data-field="DESIGN">디자인</button>
+            <button type="button" class="field-btn" data-field="PM">PM</button>
+            <button type="button" class="field-btn" data-field="AI_ML">AI/ML</button>
+
+            <span style="margin-left:20px;">지원 기간(분기):</span>
+            <button type="button" class="quarter-btn" data-quarter="1분기">1분기</button>
+            <button type="button" class="quarter-btn" data-quarter="2분기">2분기</button>
+            <button type="button" class="quarter-btn" data-quarter="3분기">3분기</button>
+            <button type="button" class="quarter-btn" data-quarter="4분기">4분기</button>
+
+            <span style="margin-left:20px;">신청 자격:</span>
+            <button type="button" class="eligibility-btn" data-eligibility="STUDENT">대학생</button>
+            <button type="button" class="eligibility-btn" data-eligibility="GRADUATE">졸업생</button>
+            <button type="button" class="eligibility-btn" data-eligibility="WORKER">직장인</button>
+
+            <span style="margin-left:20px;">요구 개발 레벨:</span>
+            <button type="button" class="level-btn" data-level="NOVICE">초심자</button>
+            <button type="button" class="level-btn" data-level="INTERMEDIATE">중급자</button>
+            <button type="button" class="level-btn" data-level="ADVANCED">고급자</button>
+        </div>
+
+        <!-- 리스트 영역 (부분 템플릿 사용) -->
+        {% include 'posts/_posts_list_container.html' %}
     </section>
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/posts/posts_list.js' %}"></script>
+
+<script>
+// AJAX 필터링: 버튼 토글(다중 선택) 지원
+function collectActiveValues(selector, dataKey) {
+    const els = Array.from(document.querySelectorAll(selector));
+    const active = els.filter(e => e.classList.contains('active')).map(e => e.dataset[dataKey]);
+    if (active.length === 0) return '';
+    return active.join(',');
+}
+
+function sendFilterAjax() {
+    const field = collectActiveValues('.field-btn', 'field');
+    const quarter = collectActiveValues('.quarter-btn', 'quarter');
+    const eligibility = collectActiveValues('.eligibility-btn', 'eligibility');
+    const level = collectActiveValues('.level-btn', 'level');
+    const section = document.querySelector('section.hero-section');
+    const type = section?.dataset.type || 'ALL';
+    const params = new URLSearchParams();
+    params.set('type', type);
+    params.set('field', field);
+    params.set('quarter', quarter);
+    params.set('eligibility', eligibility);
+    params.set('level', level);
+    const url = `/posts/ajax_list/?${params.toString()}`;
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(r => r.text())
+        .then(html => {
+            const container = document.getElementById('posts-list-container');
+            if (container) container.innerHTML = html;
+        })
+        .catch(err => console.error('Filter AJAX error', err));
+}
+
+function setupToggleGroup(buttonSelector, dataKey) {
+    const buttons = Array.from(document.querySelectorAll(buttonSelector));
+    if (!buttons.length) return;
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            btn.classList.toggle('active');
+            sendFilterAjax();
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupToggleGroup('.field-btn', 'field');
+    setupToggleGroup('.quarter-btn', 'quarter');
+    setupToggleGroup('.eligibility-btn', 'eligibility');
+    setupToggleGroup('.level-btn', 'level');
+    // 필터 버튼 모두 off 상태로 시작 (active 클래스 제거)
+    document.querySelectorAll('.field-btn, .quarter-btn, .eligibility-btn, .level-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    sendFilterAjax();
+});
+</script>
+
 {% endblock %}

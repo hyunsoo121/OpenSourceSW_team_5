@@ -1,59 +1,15 @@
+{% extends "base.html" %}
 {% load static %}
 
-
-
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 요청 페이지</title>
-    <link rel="stylesheet" href="{% static 'css/main/main.css' %}" />
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/main/main.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <div class="request-section">
-            <div class="request-box">
-                    <h1>관리자 요청 페이지</h1>
-                <form action="">
-                    <div>
-                        <input type="text" class="input" placeholder="아이디">
-                        <input type="text" class="input" placeholder="이메일(@포함 입력)">
-                    </div>
-                    <div>
-                        <select name="" class="select">
-                            <option value="">동아리 페이지</option>
-                            <option value="">부트캠프 페이지</option>
-                            <option value="">국비교육</option>
-                            <option value="">기타 건의사항</option>
-                        </select>
-                    </div>
-                    <div>
-                        <textarea rows="10" class="textarea" placeholder="내용을 입력하세요." ></textarea>
-                    </div>
-                    <div>
-                        <input type="submit" class="submit" value="제출">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-	<header class="site-header container">
-		<h1 class="brand">ITformation</h1>
-		<p class="subtitle">IT 관련 모든 정보를 제공합니다.</p>
-		<div class="cta-row">
-			<a class="btn primary" href="#features">로그인</a>
-			<a class="btn" href="#sections">회원가입</a>
-			<a class="btn primary" href="#features">로그아웃</a>
-			<a class="btn" href="#sections">마이페이지</a>
-            <a class="btn" href="#sections">관리자 요청</a>
-		</div>
-		<figure class="hero">
-			<img src="images/hero.jpg" alt="기술 배경 이미지">
-		</figure>
-	</header>
+{% endblock %}
 
-	<main>
+{% block content %}
 <section id="mid-body" class="container mid">
 	<!-- 1행: 텍스트 | 이미지 -->
 	<div class="mid__row">
@@ -66,6 +22,33 @@
 			<img src="images/card-1.jpg" alt="추천 기능 이미지">
 		</figure>
 	</div>
+    <section class="recommendation-area">
+        <h3>✨ 회원님을 위한 추천 활동</h3>
+
+        {% if recommended_posts %}
+            <div class="recommendation-grid">
+                {% for post in recommended_posts %}
+                    <div class="post-card">
+                        <h4>{{ post.name }}</h4>
+                        <p>{{ post.description|truncatechars:100 }}</p>
+                        <p><strong>활동 타입:</strong> {{ post.get_type_display }}</p>
+                        <div class="post-meta">
+                            <span>**모집 분야:** {{ post.recruitment_fields }}</span>
+                            <span>**지원 기간:** {{ post.get_application_months_display }}</span>
+                            <span>**활동 기간:** {{ post.get_activity_months_display }}</span>
+                        </div>
+                        <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-sm btn-secondary" style="margin-top: 10px;">자세히 보기</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            {% if nickname %}
+                <p>현재 회원님의 관심사와 일치하는 추천 게시글이 없습니다. 모든 게시글을 탐색해 보세요!</p>
+            {% else %}
+                <p>로그인하여 맞춤 추천 게시글을 확인해 보세요.</p>
+            {% endif %}
+        {% endif %}
+    </section>
 
 	<!-- 2행: 이미지 | 텍스트 -->
 	<div class="mid__row reverse">
@@ -103,31 +86,9 @@
 		</div>
 	</div>
 </section>
-	</main>
+{% endblock %}
 
-	<footer class="site-footer">
-		<div class="container footer-grid">
-			<div>
-				<h4>Here text</h4>
-				<p>위젯이나 안내문, 소개문을 넣어주세요.</p>
-			</div>
-			<div>
-				<h4>There text</h4>
-				<p>키워드 중심의 소개 문구 및 링크.</p>
-			</div>
-			<div>
-				<h4>Everywhere text</h4>
-				<p>페이지 전반에서 반복 안내하고 싶은 내용.</p>
-			</div>
-		</div>
-		<div class="container footer-meta">
-			<span>ITformation</span>
-			<nav class="meta-links">
-				<a href="#">Features</a>
-				<a href="#">Learn more</a>
-				<a href="#">Support</a>
-			</nav>
-		</div>
-	</footer>
-</body>
-</html>
+
+{% block extra_js %}
+<script src="{% static 'js/main/main.js' %}"></script>
+{% endblock %}

@@ -1,17 +1,19 @@
-/* base.css (프로젝트 공통 스타일 및 컴포넌트 기본값) */
+/* base.css (프로젝트 공통 스타일 및 컴포넌트 기본값) - FOOTER 제거됨 */
 
-/* 1. 기본 타이포그래피 및 레이아웃 설정 (기존 내용 유지) */
+/* 1. 기본 타이포그래피 및 레이아웃 설정 (수정됨) */
 body {
     background-color: #f8f9fa;
     color: #343a40;
     line-height: 1.6;
     font-size: 16px;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    /* footer를 제거하므로 flex 설정을 제거하거나 유지할 수 있지만,
+       여기서는 콘텐츠가 화면을 꽉 채우도록 유지합니다. */
+    display: block; /* 간단히 block으로 변경하거나, flex를 유지할 수 있습니다. */
+    /* flex-direction: column; 제거 (min-height가 필요 없다면) */
 }
 
-/* 2. 링크 스타일 (기존 내용 유지) */
+/* 2. 링크 스타일 (유지) */
 a {
     color: #007bff;
     transition: color 0.3s;
@@ -22,38 +24,37 @@ a:hover {
     text-decoration: underline;
 }
 
-/* 3. 헤더/네비게이션 스타일 (기존 내용 유지) */
+/* 3. 헤더/네비게이션 스타일 (유지) */
 header {
     background-color: #ffffff;
     border-bottom: 1px solid #dee2e6;
-    padding: 10px 20px;
+    padding: 10px 0; /* footer에 맞춘 패딩 조정 */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
-/* ... (헤더 nav, h1 등 나머지 기본 스타일) */
 
-/* 4. 메인 콘텐츠 컨테이너 스타일 (기존 내용 유지) */
+/* 헤더/푸터 컨테이너 스타일 (footer 관련 제거) */
+.header-content-wrapper {
+    /* main과 동일한 너비 설정 */
+    max-width: 768px;
+    width: 95%;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* 4. 메인 콘텐츠 컨테이너 스타일 (유지) */
 main {
     flex-grow: 1;
-    padding: 20px;
-    max-width: 1200px;
-    width: 90%;
-    margin: 20px auto;
+    padding: 20px 10px;
+    max-width: 768px;
+    width: 95%;
+    margin: 20px auto; /* 중앙 정렬 */
 }
 
-/* 5. 푸터 스타일 (기존 내용 유지) */
-footer {
-    background-color: #e9ecef;
-    color: #6c757d;
-    text-align: center;
-    padding: 15px 0;
-    border-top: 1px solid #dee2e6;
-    margin-top: auto;
-    font-size: 0.85rem;
-}
+/* 5. 푸터 스타일 (전체 제거됨) */
 
 
 /* --- ⭐⭐ 공통 컴포넌트 스타일 시작 ⭐⭐ --- */
-
+/* ... (btn 및 input 스타일 유지) ... */
 .btn {
     display: inline-block;
     padding: 10px 20px;

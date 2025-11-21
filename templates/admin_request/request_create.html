@@ -6,31 +6,33 @@
 {% endblock %}
 
 {% block content %}
-    <section class="request-section">
-    <div class="request-box">
-        <h1>관리자 요청 페이지</h1>
-        <form action="">
-            <div>
-                <input type="text" class="input" placeholder="아이디">
-                <input type="text" class="input" placeholder="이메일(@포함 입력)">
+     <div class="container">
+        <div class="request-section">
+            <div class="request-box">
+                    <h1>관리자 요청 페이지</h1>
+                <form action="">
+                    <div>
+                        <input type="text" class="input" placeholder="아이디">
+                        <input type="text" class="input" placeholder="이메일(@포함 입력)">
+                    </div>
+                    <div>
+                        <select name="" class="select">
+                            <option value="">동아리 페이지</option>
+                            <option value="">부트캠프 페이지</option>
+                            <option value="">국비교육</option>
+                            <option value="">기타 건의사항</option>
+                        </select>
+                    </div>
+                    <div>
+                        <textarea rows="10" class="textarea" placeholder="내용을 입력하세요." ></textarea>
+                    </div>
+                    <div>
+                        <input type="submit" class="submit" value="제출">
+                    </div>
+                </form>
             </div>
-            <div>
-                <select name="" class="select">
-                    <option value="">동아리 페이지</option>
-                    <option value="">부트캠프 페이지</option>
-                    <option value="">국비교육</option>
-                    <option value="">기타 건의사항</option>
-                </select>
-            </div>
-            <div>
-                <textarea rows="10" class="textarea" placeholder="내용을 입력하세요."></textarea>
-            </div>
-            <div>
-                <input type="submit" class="submit" value="제출">
-            </div>
-        </form>
+        </div>
     </div>
-</section>
 {% endblock %}
 
 {% block extra_js %}

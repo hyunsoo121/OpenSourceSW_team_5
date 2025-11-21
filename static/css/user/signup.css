@@ -1,33 +1,241 @@
-/* signup.css */
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.signup-section {
-    background-color: #f9f9f9;
-    padding: 20px;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            min-height: 100vh;
+            background-image: url('/static/images/loginimage.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
 
-.signup-section h2 {
-    color: #333;
-}
+        /* 2단 레이아웃: 회원가입 영역(왼쪽) + 빈 영역(오른쪽) */
+        .container {
+            display: grid;
+            width: 100%;
+            height: 100%;
+            grid-template-columns: minmax(320px, 45%) 1fr;
+        }
 
-.signup-section form {
-    margin-top: 20px;
-}
+        .registration-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            min-height: 100vh;
+            padding-right: 0;
+            padding-left: 80px;
+            overflow-y: auto;
+        }
 
-.signup-section label {
-    display: block;
-    margin: 10px 0 5px;
-}
+        .registration-box {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            padding: 48px 42px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+        }
 
-.signup-section input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-}
+        h1 {
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 28px;
+            color: #333;
+        }
 
-.signup-section button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-}
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .input:hover {
+            border-color: rgba(0, 0, 0, 0.35);
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 토글 스위치 스타일 */
+        .toggle-section {
+            margin: 16px 0;
+        }
+
+        .toggle-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #666;
+            font-size: 14px;
+            gap: 16px;
+        }
+
+        .toggle-group > span:first-child {
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .toggle-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0; /* 토글 스위치 크기 고정 */
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .toggle-description {
+            color: #999;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .signup-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .signup-btn:hover {
+            background-color: #555;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .signup-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .kakao-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #FEE500;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .kakao-btn:hover {
+            background-color: #FDD835;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .kakao-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .kakao-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-right: 4px;
+            vertical-align: -3px;
+        }
+
+        /* 반응형: 태블릿 */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .registration-section {
+                padding: 40px;
+            }
+        }
+
+        /* 반응형: 모바일 */
+        @media (max-width: 640px) {
+            .registration-section {
+                padding: 20px;
+            }
+            .registration-box {
+                padding: 32px 24px;
+            }
+            .toggle-group {
+                font-size: 13px;
+                gap: 12px;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 24px;
+            }
+        }

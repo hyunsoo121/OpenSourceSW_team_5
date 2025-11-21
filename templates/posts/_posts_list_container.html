@@ -1,15 +1,23 @@
+{% comment %} Partial used by AJAX to return only the posts list markup. Kept in sync with posts_list.html inlined markup. {% endcomment %}
 <div id="posts-list-container">
-    {% if posts %}
-        <ul>
-            {% for post in posts %}
-                <li>
-                    <a href="{% url 'posts:posts_detail' post.id %}" class="btn btn-sm btn-secondary" style="margin-top: 10px;">
-                        {{ post.name }} - {{ post.get_type_display }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
+    {% if posts and posts.exists %}
+    <div class="posts-grid">
+        {% for post in posts %}
+        <article class="post-card">
+            <header class="post-card-header">
+                <h3><a href="{% url 'posts:posts_detail' post.pk %}">{{ post.name }}</a></h3>
+                <p class="post-meta">{{ post.get_type_display }} · {{ post.get_recruitment_fields_display }}</p>
+            </header>
+            <div class="post-card-body">
+                <p class="post-excerpt">{{ post.description|truncatechars:140 }}</p>
+            </div>
+            <footer class="post-card-footer">
+                <small>지원 기간: {{ post.get_application_months_display }}</small>
+            </footer>
+        </article>
+        {% endfor %}
+    </div>
     {% else %}
-        <p>등록된 게시글이 없습니다.</p>
+        <p class="muted">게시글이 없습니다.</p>
     {% endif %}
 </div>

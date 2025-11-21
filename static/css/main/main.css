@@ -161,3 +161,4 @@ img{ max-width:100%; display:block; }
 	/* 이미지 위, 텍스트 아래로 정렬 전환 */
 	.mid__row.reverse .mid__media{ order: 0; }
 	.mid__row.reverse .mid__text{ order: 1; }
+}

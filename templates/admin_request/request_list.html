@@ -8,11 +8,19 @@
 {% block content %}
     <section class="request-list-section">
         <h2>관리자 요청 목록</h2>
-        <ul>
-            <li><a href="/admin-request/detail/1">요청 1</a></li>
-            <li><a href="/admin-request/detail/2">요청 2</a></li>
-            <li><a href="/admin-request/detail/3">요청 3</a></li>
-        </ul>
+        {% if requests %}
+            <ul>
+                {% for req in requests %}
+                    <li>
+                        <a href="/admin-request/detail/{{ req.pk }}/">{{ req.title }}</a>
+                        — {{ req.requester }} • {{ req.get_status_display }} • {{ req.created_at|date:"Y-m-d H:i" }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>요청이 없습니다.</p>
+        {% endif %}
+        <p><a href="/admin-request/create/">요청 만들기</a></p>
     </section>
 {% endblock %}
 

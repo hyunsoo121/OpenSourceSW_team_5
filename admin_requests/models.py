@@ -15,8 +15,8 @@ class AdminRequest(models.Model):
     ]
 
     STATUS_CHOICES = [
-        ("pending", "대기 중"),
-        ("approved", "승인됨"),
+        ("processing", "요청 처리중"),
+        ("done", "요청 처리됨"),
         ("rejected", "거절됨"),
     ]
 
@@ -46,9 +46,9 @@ class AdminRequest(models.Model):
     content = models.TextField(verbose_name="요청 상세 내용")
 
     status = models.CharField(
-        max_length=10,
+        max_length=16,
         choices=STATUS_CHOICES,
-        default="pending",
+        default="processing",
         verbose_name="처리 상태",
     )
 

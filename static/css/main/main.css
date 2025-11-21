@@ -164,8 +164,14 @@ img{ max-width:100%; display:block; }
 }
 
 
+/* Main page container: constrain width to match header/content wrapper
+   and preserve card-like background from base.css. This prevents the
+   main box from stretching wider than the intended content area. */
 main {
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 0;
+	max-width: 768px;
+	margin: 20px auto;
+	padding: 24px 16px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 6px 18px rgba(0,0,0,0.06);
 }

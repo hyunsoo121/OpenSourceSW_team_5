@@ -8,12 +8,35 @@
 {% block content %}
     <section class="request-detail-section">
         <h2>요청 상세</h2>
-        <p>여기는 요청 상세 페이지입니다.</p>
-        <div>
-            <h3>요청 제목</h3>
-            <p>요청 내용이 여기에 표시됩니다.</p>
+        <div class="request-item">
+            <h3>{{ request.title }}</h3>
+            <p>{{ request.content|linebreaks }}</p>
+            <p>요청자: {{ request.requester }}</p>
+            <p>상태: {{ request.get_status_display }}</p>
+            <p>생성일: {{ request.created_at }}</p>
+            {% if request.reviewer %}
+                <p>검토자: {{ request.reviewer }} ({{ request.review_comment }})</p>
+            {% endif %}
         </div>
-        <a href="/admin-request">목록으로 돌아가기</a>
+
+        <div class="request-actions">
+            <a href="/admin-request">목록으로 돌아가기</a>
+            {% if request.requester == user %}
+                <a href="/admin-request/edit/{{ request.pk }}/">수정</a>
+                <a href="/admin-request/delete/{{ request.pk }}/">삭제</a>
+            {% endif %}
+        </div>
+
+        {% if user.is_staff %}
+            <section class="admin-review">
+                <h4>관리자 검토</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ review_form.as_p }}
+                    <button type="submit">저장</button>
+                </form>
+            </section>
+        {% endif %}
     </section>
 {% endblock %}
 

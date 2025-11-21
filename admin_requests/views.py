@@ -1,29 +1,117 @@
-from django.shortcuts import render
+import logging
+import os
 
-# Create your views here.
+from django.conf import settings
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+
+from .forms import AdminRequestForm, AdminReviewForm
+from .models import AdminRequest
+
+logger = logging.getLogger(__name__)
 
 
-# 요청 목록 페이지 렌더링
+@login_required
 def request_list(request):
-    return render(request, "admin_request/request_list.html")
+    # Admins see all requests, users see their own
+    if request.user.is_staff:
+        qs = AdminRequest.objects.all()
+    else:
+        qs = AdminRequest.objects.filter(requester=request.user)
+    return render(request, "admin_request/request_list.html", {"requests": qs})
 
 
-# 요청 상세 페이지 렌더링
+@login_required
 def request_detail(request, request_id):
-    return render(
-        request, "admin_request/request_detail.html", {"request_id": request_id}
-    )
+    req = get_object_or_404(AdminRequest, pk=request_id)
 
+    # handle admin review form
+    if request.method == "POST" and request.user.is_staff:
+        form = AdminReviewForm(request.POST, instance=req)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.reviewer = request.user
+            review.save()
+            return redirect("request_detail", request_id=req.pk)
 
-# 요청 작성 페이지 렌더링
-def request_create(request):
-    return render(request, "admin_request/request_create.html")
-
-
-# 요청 수정 페이지 렌더링
-def request_edit(request, request_id):
+    review_form = AdminReviewForm(instance=req)
     return render(
         request,
-        "admin_request/request_edit.html",
-        {"request_id": request_id, "title": "기존 제목", "content": "기존 내용"},
+        "admin_request/request_detail.html",
+        {"request": req, "review_form": review_form},
     )
+
+
+@login_required
+def request_create(request):
+    if request.method == "POST":
+        form = AdminRequestForm(request.POST)
+        if form.is_valid():
+            ar = form.save(commit=False)
+            ar.requester = request.user
+            ar.save()
+            # send notification email to admin
+            try:
+                from_email = (
+                    os.environ.get("DEFAULT_FROM_EMAIL") or settings.DEFAULT_FROM_EMAIL
+                )
+                subject = f"[관리자 요청] {ar.title}"
+                detail_url = request.build_absolute_uri(
+                    reverse("request_detail", args=[ar.pk])
+                )
+                message = (
+                    f"요청자: {ar.requester}\n"
+                    f"요청 유형: {ar.get_request_type_display()}\n\n"
+                    f"{ar.content}\n\n"
+                    f"요청 상세 보기: {detail_url}\n"
+                )
+                send_mail(
+                    subject,
+                    message,
+                    from_email,
+                    ["itformaition@gmail.com"],
+                    fail_silently=False,
+                )
+            except Exception as exc:
+                logger.exception(
+                    "Failed sending admin request email for AdminRequest %s: %s",
+                    ar.pk,
+                    exc,
+                )
+
+            return redirect("request_list")
+    else:
+        form = AdminRequestForm()
+    return render(request, "admin_request/request_create.html", {"form": form})
+
+
+@login_required
+def request_edit(request, request_id):
+    req = get_object_or_404(AdminRequest, pk=request_id)
+    if req.requester != request.user:
+        # only owner can edit
+        return redirect("request_detail", request_id=req.pk)
+
+    if request.method == "POST":
+        form = AdminRequestForm(request.POST, instance=req)
+        if form.is_valid():
+            form.save()
+            return redirect("request_detail", request_id=req.pk)
+    else:
+        form = AdminRequestForm(instance=req)
+
+    return render(
+        request, "admin_request/request_edit.html", {"form": form, "request_obj": req}
+    )
+
+
+@login_required
+def request_delete(request, request_id):
+    req = get_object_or_404(AdminRequest, pk=request_id)
+    if req.requester != request.user and not request.user.is_staff:
+        return redirect("request_detail", request_id=req.pk)
+
+    req.delete()
+    return redirect("request_list")

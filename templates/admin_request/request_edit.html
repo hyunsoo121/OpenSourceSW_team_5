@@ -8,13 +8,12 @@
 {% block content %}
     <section class="request-edit-section">
         <h2>관리자 요청 수정</h2>
-        <form method="post" action="/admin-request/edit/{{ request_id }}/">
-            <label for="title">제목:</label>
-            <input type="text" id="title" name="title" value="{{ title }}" required>
-
-            <label for="content">내용:</label>
-            <textarea id="content" name="content" rows="5" required>{{ content }}</textarea>
-
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="errors">{{ form.non_field_errors }}</div>
+            {% endif %}
+            {{ form.as_p }}
             <button type="submit">수정하기</button>
         </form>
     </section>

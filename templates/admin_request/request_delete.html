@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="request-delete-section">
+        <h2>요청 삭제 확인</h2>
+        <p>정말로 요청 "{{ request_obj.title }}" 를 삭제하시겠습니까?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">삭제</button>
+            <a href="/admin-request/detail/{{ request_obj.pk }}/">취소</a>
+        </form>
+    </section>
+{% endblock %}

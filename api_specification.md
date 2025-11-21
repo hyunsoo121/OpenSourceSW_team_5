@@ -13,12 +13,14 @@
 | API 이름         |                        URL |  Method  | 설명                               | 요청 예시        | 응답(템플릿) 컨텍스트                  |
 | ---------------- | -------------------------: | :------: | ---------------------------------- | ---------------- | -------------------------------------- |
 | 게시판 목록      |                  `/posts/` |   GET    | 공개된 게시글 목록 페이지          | -                | `{'posts': QuerySet[Post]}`            |
-| 게시글 상세      |    `/posts/<int:post_id>/` |   GET    | 단일 게시글 상세 페이지            | -                | `{'post': Post}`                       |
+| 게시글 상세      | `/posts/detail/<int:post_id>/` |   GET    | 단일 게시글 상세 페이지            | -                | `{'post': Post}`                       |
+| 게시판 타입별    | `/posts/type/<str:type_code>/` |   GET    | 게시판을 활동 타입(동아리/대외 등)별로 필터링한 목록 | - | `{'posts': QuerySet[Post], 'type_code': str}` |
+| 게시판 AJAX 목록 | `/posts/ajax_list/`           |   GET    | AJAX로 부분 목록(HTML fragment)을 반환 (필터링용) | AJAX/GET params | `{'posts': QuerySet[Post]}` |
 | 회원가입 페이지  |            `/user/signup/` |   GET    | 회원가입 폼 렌더링                 | -                | `{'form': SignupForm}`                 |
 | 로그인 페이지    |             `/user/login/` |   GET    | 로그인 폼 렌더링                   | -                | `{'form': LoginForm}`                  |
 | 회원정보 수정    |      `/user/edit-profile/` | GET/POST | 프로필 수정 폼 렌더링 및 제출 처리 | form-data (POST) | `{'form': EditProfileForm}`            |
 | 관리자 요청 목록 |          `/admin-request/` |   GET    | 관리자 요청 리스트(로그인 필요)    | -                | `{'requests': QuerySet[AdminRequest]}` |
-| 관리자 요청 상세 | `/admin-request/<int:pk>/` |   GET    | 특정 관리자 요청 상세(로그인 필요) | -                | `{'admin_request': AdminRequest}`      |
+| 관리자 요청 상세 | `/admin-request/detail/<int:request_id>/` |   GET    | 특정 관리자 요청 상세(로그인 필요) | -                | `{'admin_request': AdminRequest}`      |
 | 관리자 요청 작성 |   `/admin-request/create/` | GET/POST | 요청 작성 폼 렌더링/제출           | form-data (POST) | `{'form': AdminRequestForm}`           |
 
 ---

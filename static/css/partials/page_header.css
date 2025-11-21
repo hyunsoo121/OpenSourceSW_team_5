@@ -1,0 +1,58 @@
+/* --- 3. Layout & Container (Header / Info / Footer) --- */
+.page-header-container,
+.info-container,
+.page-footer-container {
+  max-width: 840px; /* 더 컴팩트하게 축소 */
+  margin: 0 auto; /* 상하 여백 제거 */
+  padding: 0 8px; /* 모바일/데스크탑에서 좌우 여백 보정 */
+}
+
+.page-header-container { margin-bottom: 12px; }
+.page-footer-container { padding-top: 20px; }
+
+/* --- 4. Header / Hero Area --- */
+.header-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.header-logo { text-align: center; }
+
+/* Desktop: make header-top horizontal with logo left and buttons right */
+@media (min-width: 768px) {
+  .header-top {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px; /* 더 좁은 간격 */
+    padding: 0 6px; /* 내부 여백으로 좌우 공간 보정 */
+  }
+
+  .header-logo { text-align: left; flex: 0 0 auto; }
+  .header-buttons { justify-content: flex-end; gap: 6px; }
+  .btn-detail { padding: 6px 10px; font-size: 0.82rem; }
+}
+.header-logo h1 { font-size: 1.8rem; font-weight: 700; margin: 0; }
+.header-logo p { font-size: 0.85rem; color: #666; margin: 4px 0 0 0; }
+
+.header-buttons { display: flex; gap: 6px; }
+
+.btn-detail {
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.12s ease;
+  border: 1px solid #ccc;
+  font-size: 0.82rem;
+}
+.btn-detail-light { background-color: #fff; color: #333; }
+.btn-detail-light:hover { background-color: #f8f8f8; }
+.btn-detail-dark { background-color: #333; color: #fff; border-color: #333; }
+.btn-detail-dark:hover { background-color: #555; }
+
+.header-hero-image { text-align: center; }
+.header-hero-image img { width: 100%; height: auto; max-height: 220px; object-fit: cover; border-radius: 8px; }

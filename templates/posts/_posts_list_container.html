@@ -8,9 +8,6 @@
                 <h3><a href="{% url 'posts:posts_detail' post.pk %}">{{ post.name }}</a></h3>
                 <p class="post-meta">{{ post.get_type_display }} · {{ post.get_recruitment_fields_display }}</p>
             </header>
-            <div class="post-card-body">
-                <p class="post-excerpt">{{ post.description|truncatechars:140 }}</p>
-            </div>
             <footer class="post-card-footer">
                 <small>지원 기간: {{ post.get_application_months_display }}</small>
             </footer>

@@ -3,32 +3,25 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/main/main.css' %}">
-<style>
-    /* 임시 CSS: 레이아웃 확인용 (실제 스타일은 main.css에서 관리) */
-    .hero-section { text-align: center; padding: 40px 20px; background: #f8f9fa; margin-bottom: 30px; border-radius: 8px;}
-    .recommendation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px;}
-    .post-card { border: 1px solid #dee2e6; padding: 15px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    .post-card h4 { color: #007bff; margin-top: 0; }
-    .post-meta span { display: block; font-size: 0.9em; color: #6c757d; }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
 {% endblock %}
 
 {% block content %}
-    <section class="hero-section">
-        {% if nickname %}
-            <h2>안녕하세요, **{{ nickname }}**님!</h2>
-            <p>회원님의 프로필 정보에 기반한 맞춤형 동아리/팀 모집 공고를 추천해 드립니다.</p>
-        {% else %}
-            <h2>여러분의 Django 프로젝트에 오신 것을 환영합니다!</h2>
-            <p>로그인하시면 회원님께 맞는 동아리 모집 공고를 추천받을 수 있습니다.</p>
-        {% endif %}
-        <a href="{% url 'login' %}" class="btn btn-primary">
-            {% if nickname %}내 프로필 보기{% else %}로그인하고 추천받기{% endif %}
-        </a>
-    </section>
-
-    <hr>
-
+<section id="mid-body" class="container mid">
+	<!-- 1행: 텍스트 | 이미지 -->
+	<div class="mid__row">
+		<div class="mid__text">
+			<h2>사용자 추천 기능</h2>
+			<p>사용자를 자동 분석하여 개인화 추천을 제공합니다.</p>
+			<a class="btn tiny" href="#">알아보기</a>
+		</div>
+		<figure class="mid__media">
+			<img src="images/card-1.jpg" alt="추천 기능 이미지">
+		</figure>
+	</div>
     <section class="recommendation-area">
         <h3>✨ 회원님을 위한 추천 활동</h3>
 
@@ -57,23 +50,44 @@
         {% endif %}
     </section>
 
-    <hr>
+	<!-- 2행: 이미지 | 텍스트 -->
+	<div class="mid__row reverse">
+		<figure class="mid__media">
+			<img src="images/card-2.jpg" alt="IT 동아리 활동">
+		</figure>
+		<div class="mid__text">
+			<h3>IT 관련 동아리 활동</h3>
+			<p>활동 소개와 참가 정보를 한눈에.</p>
+			<a class="btn tiny" href="#">자세히</a>
+		</div>
+	</div>
 
-    <section class="feature-grid">
-        <div class="feature-card">
-            <h3>코드 스타일 통일</h3>
-            <p>Pre-commit 훅을 통해 모든 팀원의 코드 스타일을 Black과 isort로 자동 정리합니다.</p>
-        </div>
-        <div class="feature-card">
-            <h3>안정적인 환경</h3>
-            <p>가상 환경과 requirements.txt로 모든 개발 환경을 동일하게 유지합니다.</p>
-        </div>
-        <div class="feature-card">
-            <h3>규칙적인 커밋</h3>
-            <p>Conventional Commits 규칙을 적용하여 모든 변경 사항을 명확하게 기록합니다.</p>
-        </div>
-    </section>
+	<!-- 3행: 텍스트 | 이미지 -->
+	<div class="mid__row">
+		<div class="mid__text">
+			<h3>부트캠프</h3>
+			<p>집중 커리큘럼으로 실무 역량을 키워보세요.</p>
+			<a class="btn tiny" href="#">신청하기</a>
+		</div>
+		<figure class="mid__media">
+			<img src="images/card-3.jpg" alt="부트캠프 이미지">
+		</figure>
+	</div>
+
+	<!-- 4행: 이미지 | 텍스트 -->
+	<div class="mid__row reverse">
+		<figure class="mid__media">
+			<img src="images/card-4.jpg" alt="국비교육 이미지">
+		</figure>
+		<div class="mid__text">
+			<h3>국비교육</h3>
+			<p>정부 지원으로 부담을 낮춘 교육 과정.</p>
+			<a class="btn tiny" href="#">확인하기</a>
+		</div>
+	</div>
+</section>
 {% endblock %}
+
 
 {% block extra_js %}
 <script src="{% static 'js/main/main.js' %}"></script>

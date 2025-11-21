@@ -119,3 +119,13 @@ def main(request: HttpRequest):
             "recommended_posts": recommended_posts,
         },
     )
+
+
+def listPage(request: HttpRequest):
+    """Render the list page (activity/club listings)."""
+    return render(request, "main/listPage.html")
+
+
+def detailPage(request: HttpRequest):
+    """Render the detail page (single activity/post details)."""
+    return render(request, "main/detailPage.html")

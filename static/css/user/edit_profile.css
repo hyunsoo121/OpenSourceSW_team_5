@@ -1,33 +1,223 @@
-/* edit_profile.css */
+/* 회원정보 수정 페이지 전용 스타일 */
 
-.edit-profile-section {
-    background-color: #f4f4f4;
+/* 컨테이너 배경 설정 */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background-image: url('/static/images/loginimage.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     padding: 20px;
 }
 
-.edit-profile-section h2 {
-    color: #222;
-}
-
-.edit-profile-section form {
-    margin-top: 20px;
-}
-
-.edit-profile-section label {
-    display: block;
-    margin: 10px 0 5px;
-}
-
-.edit-profile-section input {
+/* 프로필 수정 섹션 */
+.edit-profile-section {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.edit-profile-section button {
-    background-color: #17a2b8;
+/* 프로필 수정 박스 */
+.edit-profile-box {
+    width: 100%;
+    background-color: white;
+    padding: 48px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* 제목 */
+.edit-profile-box h2 {
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 28px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* 메시지 알림 */
+.messages {
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* 입력 필드 */
+.edit-profile-box input,
+.edit-profile-box select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    margin-bottom: 16px;
+}
+
+.edit-profile-box input:hover,
+.edit-profile-box select:hover {
+    border-color: #999;
+}
+
+.edit-profile-box input:focus,
+.edit-profile-box select:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 0 3px rgba(102, 102, 102, 0.1);
+}
+
+/* 라벨 */
+.edit-profile-box label {
+    display: block;
+    margin-bottom: 6px;
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* 단락 스타일 (form.as_p 사용시) */
+.edit-profile-box p {
+    margin-bottom: 16px;
+}
+
+/* 수정 버튼 */
+.edit-profile-box button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background-color: #333;
     color: white;
-    padding: 10px;
     border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+}
+
+.edit-profile-box button[type="submit"]:hover {
+    background-color: #555;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.edit-profile-box button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* 에러 메시지 */
+.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 8px 0;
+}
+
+.errorlist li {
+    color: #dc3545;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+/* 도움말 텍스트 */
+.helptext {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-top: -8px;
+    margin-bottom: 12px;
+}
+
+/* 태블릿 (768px ~ 1024px) */
+@media (max-width: 1024px) {
+    .container {
+        padding: 40px 20px;
+    }
+
+    .edit-profile-section {
+        max-width: 550px;
+    }
+
+    .edit-profile-box {
+        padding: 44px 36px;
+    }
+}
+
+/* 모바일 (~ 767px) */
+@media (max-width: 767px) {
+    .container {
+        padding: 20px 16px;
+        background-attachment: scroll;
+    }
+
+    .edit-profile-section {
+        max-width: 100%;
+    }
+
+    .edit-profile-box {
+        padding: 36px 28px;
+        border-radius: 10px;
+    }
+
+    .edit-profile-box h2 {
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+
+    .edit-profile-box input,
+    .edit-profile-box select {
+        font-size: 16px; /* iOS 자동 줌 방지 */
+        padding: 11px 14px;
+    }
+
+    .edit-profile-box button[type="submit"] {
+        padding: 13px;
+        font-size: 15px;
+    }
+}
+
+/* 작은 모바일 (~ 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 16px 12px;
+    }
+
+    .edit-profile-box {
+        padding: 32px 24px;
+    }
+
+    .edit-profile-box h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
 }

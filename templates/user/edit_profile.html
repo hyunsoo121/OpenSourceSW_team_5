@@ -6,23 +6,27 @@
 {% endblock %}
 
 {% block content %}
-    <section class="edit-profile-section">
-        <h2>회원정보 수정</h2>
+<div class="container">
+    <div class="edit-profile-section">
+        <div class="edit-profile-box">
+            <h2>회원정보 수정</h2>
 
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="message {{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-        <form method="post" action="{% url 'edit_profile' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">수정하기</button>
-        </form>
-    </section>
+            <form method="post" action="{% url 'edit_profile' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">수정하기</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}

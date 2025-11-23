@@ -19,6 +19,22 @@ def posts_ajax_list(request):
     eligibility = request.GET.get("eligibility")
     level = request.GET.get("level")
 
+    # 최신순 / 등록순 필터링 로직
+    sort_param = request.GET.get("sort")
+
+    if sort_param == "created_at":
+        posts = posts.order_by("created_at")
+    else:
+        posts = posts.order_by("-created_at")
+
+    # 검색어 필터링 로직
+    search_query = request.GET.get("search")
+    if search_query:
+        posts = posts.filter(
+            models.Q(name__icontains=search_query)
+            | models.Q(description__icontains=search_query)
+        )
+
     # 모집 분야 (다중 선택 -> OR)
     if field and field not in ["ALL", ""]:
         values = [v for v in field.split(",") if v]

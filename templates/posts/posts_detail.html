@@ -8,6 +8,25 @@
 
 {% block content %}
 
+<div class="page-header-container">
+  <div class="header-top">
+    <div class="header-logo">
+      <h1>ITformation</h1>
+      <p>IT 관련 모든 정보를 제공합니다.</p>
+    </div>
+    <div class="header-buttons">
+      <a href="#" class="btn-detail btn-detail-light">마이페이지</a>
+      <a href="#" class="btn-detail btn-detail-light">관리자 요청</a>
+      <a href="#" class="btn-detail btn-detail-dark">로그아웃</a>
+    </div>
+  </div>
+  <div class="header-hero-image">
+    <img src="{% static 'images/it-hero-image.jpg' %}" alt="IT 활동 배너">
+  </div>
+  <hr class="dotted-divider">
+</div>
+
+
 <div class="detail-content-container">
 
   <section class="post-detail-container">
@@ -22,7 +41,7 @@
     </div>
 
     <div class="post-info-box">
-      <h3>✅ 주요 모집 정보</h3>
+      <h3>✅주요 모집 정보</h3>
       <ul class="info-list">
         <li>
           <strong>모집 분야:</strong>
@@ -54,7 +73,7 @@
     <div class="post-links">
       {% if post.homepage_link %}
       <p>
-        <strong>🏠 홈페이지:</strong>
+        <strong>홈페이지:</strong>
         <a href="{{ post.homepage_link }}" target="_blank">{{ post.name }} 공식 웹사이트</a>
       </p>
       {% endif %}
@@ -77,6 +96,35 @@
   </section>
 
   <hr class="dotted-divider">
+</div>
+
+
+<div class="page-footer-container">
+  <div class="footer-columns">
+    <div class="footer-column">
+      <h4>Here text</h4>
+      <p>amazing for websites is both simple and complex... [생략]</p>
+    </div>
+    <div class="footer-column">
+      <h4>There text</h4>
+      <p>Are you thinking of keywords you should rank for... [생략]</p>
+    </div>
+    <div class="footer-column">
+      <h4>Everywhere text</h4>
+      <p>There's a theory that people read in an F-shape pattern... [생략]</p>
+    </div>
+  </div>
+  <div class="footer-bottom-bar">
+    <div class="footer-links">
+      <strong>Namedly</strong>
+      <a href="#">Features</a>
+      <a href="#">Learn more</a>
+      <a href="#">Support</a>
+    </div>
+    <div class="footer-socials">
+      <a href="#">[IG]</a> <a href="#">[LI]</a> <a href="#">[X]</a>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

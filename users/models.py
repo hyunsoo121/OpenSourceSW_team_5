@@ -54,11 +54,17 @@ class User(AbstractBaseUser, PermissionsMixin):
         ("FRONTEND", "프론트엔드"),
         ("BACKEND", "백엔드"),
         ("AI_ML", "AI/머신러닝"),
+        ("EMBEDDED", "임베디드 SW"),
+        ("QA", "QA/테스팅"),
+        ("NETWORK", "네트워크/보안"),
+        ("ETC", "기타"),
     ]
     AFFILIATION_CHOICES = [
-        ("STUDENT", "대학생"),
+        ("STUDENT_CS", "대학생(전공)"),
+        ("STUDENT_NON_CS", "대학생(비전공)"),
         ("GRADUATE", "졸업생"),
         ("WORKER", "직장인"),
+        ("NON_MAJOR", "비전공자"),
     ]
     LEVEL_CHOICES = [
         ("NOVICE", "초심자"),
@@ -71,17 +77,23 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=150, unique=True, verbose_name="아이디")
     nickname = models.CharField(max_length=50, unique=True, verbose_name="닉네임")
     email = models.EmailField(max_length=255, unique=True, verbose_name="이메일")
+    phone = models.CharField(
+        max_length=20, blank=True, null=True, verbose_name="전화번호"
+    )
+    address = models.CharField(
+        max_length=255, blank=True, null=True, verbose_name="주소"
+    )
 
     interest_field = models.CharField(
-        max_length=10,
+        max_length=15,
         choices=INTEREST_CHOICES,
         default="FRONTEND",
         verbose_name="관심분야",
     )
     affiliation = models.CharField(
-        max_length=10,
+        max_length=20,
         choices=AFFILIATION_CHOICES,
-        default="STUDENT",
+        default="STUDENT_CS",
         verbose_name="소속",
     )
     dev_level = models.CharField(

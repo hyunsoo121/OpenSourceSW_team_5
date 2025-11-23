@@ -17,6 +17,8 @@ class CustomUserCreationForm(UserCreationForm):
             "username",
             "nickname",
             "email",
+            "phone",
+            "address",
             "interest_field",
             "affiliation",
             "dev_level",
@@ -29,6 +31,21 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields["email"].required = True
         self.fields["nickname"].required = True
 
+        # 전화번호 필드 설정
+        if "phone" in self.fields:
+            self.fields["phone"].widget.attrs.update(
+                {
+                    "placeholder": "010-0000-0000",
+                    "pattern": "[0-9]{3}-[0-9]{3,4}-[0-9]{4}",
+                }
+            )
+
+        # 주소 필드 설정
+        if "address" in self.fields:
+            self.fields["address"].widget.attrs.update(
+                {"placeholder": "주소를 입력해주세요"}
+            )
+
 
 class EditProfileForm(forms.ModelForm):
     """사용자 정보 수정 폼: username, password는 제외하고 수정 가능하도록 함"""
@@ -38,6 +55,8 @@ class EditProfileForm(forms.ModelForm):
         fields = (
             "nickname",
             "email",
+            "phone",
+            "address",
             "interest_field",
             "affiliation",
             "dev_level",

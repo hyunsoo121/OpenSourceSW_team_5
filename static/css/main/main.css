@@ -18,7 +18,7 @@ body{
 
 img{ max-width:100%; display:block; }
 
-.container{
+.container mid{
 	width:min(1120px, 92vw);
 	margin-inline:auto;
 }
@@ -174,4 +174,101 @@ main {
 	background-color: #ffffff;
 	border-radius: 10px;
 	box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* ========================================
+   추천 활동 섹션 스타일
+   ======================================== */
+.recommendation-area {
+    padding: 48px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.recommendation-area h2 {
+    margin: 0 0 24px;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.recommendation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.post-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.post-card h4 {
+    margin: 0 0 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.post-card .post-description {
+    color: var(--muted);
+    margin: 0 0 16px;
+    line-height: 1.6;
+}
+
+.post-card > p {
+    margin: 8px 0;
+    font-size: 0.9rem;
+}
+
+.post-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 16px 0;
+    padding: 12px;
+    background: #fafafb;
+    border-radius: 8px;
+}
+
+.post-meta span {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.post-card .btn {
+    margin-top: 16px;
+    width: 100%;
+    text-align: center;
+}
+
+.no-results {
+    text-align: center;
+    color: var(--muted);
+    padding: 48px 24px;
+    background: #fafafb;
+    border-radius: var(--radius);
+}
+
+/* 반응형 - 작은 화면 */
+@media (max-width: 960px) {
+    .recommendation-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .recommendation-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recommendation-area h2 {
+        font-size: 1.5rem;
+    }
 }

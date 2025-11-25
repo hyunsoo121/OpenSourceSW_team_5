@@ -6,22 +6,98 @@
 {% endblock %}
 
 {% block content %}
-    <section class="request-list-section">
-        <h2>관리자 요청 목록</h2>
+    <div class="list-container">
+        <!-- 헤더 섹션 -->
+        <div class="list-header">
+            <div class="header-content">
+                <h1>관리자 요청 목록</h1>
+                <p class="subtitle">내가 요청한 내역을 확인하고 관리할 수 있습니다</p>
+            </div>
+            <a href="{% url 'admin_request:request_create' %}" class="btn btn-primary">
+                <span class="btn-icon"></span>
+                작성하기
+            </a>
+        </div>
+
+        <!-- 필터/통계 섹션 -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <span class="stat-icon"></span>
+                <div class="stat-info">
+                    <p class="stat-label">처리중</p>
+                    <p class="stat-value">{{ requests|length }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon"></span>
+                <div class="stat-info">
+                    <p class="stat-label">완료됨</p>
+                    <p class="stat-value">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon"></span>
+                <div class="stat-info">
+                    <p class="stat-label">거절됨</p>
+                    <p class="stat-value">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 요청 목록 -->
         {% if requests %}
-            <ul>
+            <div class="requests-grid">
                 {% for req in requests %}
-                    <li>
-                        <a href="/admin-request/detail/{{ req.pk }}/">{{ req.title }}</a>
-                        — {{ req.requester }} • {{ req.get_status_display }} • {{ req.created_at|date:"Y-m-d H:i" }}
-                    </li>
+                    <div class="request-card">
+                        <div class="card-header">
+                            <div class="request-type">
+                                {% if req.request_type == 'CREATE' %}
+                                    <span class="type-badge badge-create">생성 요청</span>
+                                {% elif req.request_type == 'UPDATE' %}
+                                    <span class="type-badge badge-update">수정 요청</span>
+                                {% elif req.request_type == 'FEEDBACK' %}
+                                    <span class="type-badge badge-feedback">불편사항 요청</span>
+                                {% endif %}
+                            </div>
+                            <div class="request-status">
+                                {% if req.status == 'processing' %}
+                                    <span class="status-badge badge-processing">처리중</span>
+                                {% elif req.status == 'done' %}
+                                    <span class="status-badge badge-done">완료</span>
+                                {% else %}
+                                    <span class="status-badge badge-rejected">거절</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <h3 class="request-title">{{ req.title }}</h3>
+                            <p class="request-content">{{ req.content|truncatewords:20 }}</p>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="request-meta">
+                                <span class="meta-item"> {{ req.requester.nickname|default:req.requester.username }}</span>
+                                <span class="meta-item"> {{ req.created_at|date:"Y-m-d H:i" }}</span>
+                            </div>
+                            <a href="{% url 'admin_request:request_detail' req.pk %}" class="btn btn-detail">
+                                상세보기 →
+                            </a>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
-            <p>요청이 없습니다.</p>
+            <div class="empty-state">
+                <div class="empty-icon"></div>
+                <h3>등록된 요청이 없습니다</h3>
+                <p>관리자에게 문의하거나 건의할 내용이 있으신가요?</p>
+                <a href="{% url 'admin_request:request_create' %}" class="btn btn-primary btn-large">
+                    <span class="btn-icon"></span> 첫 요청 작성하기
+                </a>
+            </div>
         {% endif %}
-        <p><a href="/admin-request/create/">요청 만들기</a></p>
-    </section>
+    </div>
 {% endblock %}
 
 {% block extra_js %}

@@ -12,6 +12,7 @@ class AdminRequest(models.Model):
     REQUEST_TYPE_CHOICES = [
         ("CREATE", "게시글 생성 요청"),
         ("UPDATE", "게시글 수정 요청"),
+        ("FEEDBACK", "불편사항 건의"),
     ]
 
     STATUS_CHOICES = [
@@ -77,12 +78,5 @@ class AdminRequest(models.Model):
 
     def clean(self):
         """모델 저장 전 유효성 검사 (생성 vs 수정 요청에 따른 대상 게시글 유무 검사)"""
-        if self.request_type == "UPDATE" and not self.target_post:
-            raise ValidationError(
-                {"target_post": _("수정 요청의 경우 대상 게시글을 선택해야 합니다.")}
-            )
-
-        if self.request_type == "CREATE" and self.target_post:
-            raise ValidationError(
-                {"target_post": _("생성 요청의 경우 대상 게시글을 지정할 수 없습니다.")}
-            )
+        # target_post 유효성 검사는 비활성화 (UI에서 필드를 제거했으므로)
+        pass

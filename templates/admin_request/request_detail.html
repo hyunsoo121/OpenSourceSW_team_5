@@ -6,38 +6,120 @@
 {% endblock %}
 
 {% block content %}
-    <section class="request-detail-section">
-        <h2>요청 상세</h2>
-        <div class="request-item">
-            <h3>{{ request.title }}</h3>
-            <p>{{ request.content|linebreaks }}</p>
-            <p>요청자: {{ request.requester }}</p>
-            <p>상태: {{ request.get_status_display }}</p>
-            <p>생성일: {{ request.created_at }}</p>
-            {% if request.reviewer %}
-                <p>검토자: {{ request.reviewer }} ({{ request.review_comment }})</p>
-            {% endif %}
+    <div class="detail-container">
+
+        <!-- 요청 상세 카드 -->
+        <div class="detail-card">
+            <!-- 헤더 -->
+            <div class="detail-header">
+                <div class="header-top">
+                    <div class="request-badges">
+                        {% if request.request_type == 'CREATE' %}
+                            <span class="type-badge badge-create">게시글 생성 요청</span>
+                        {% elif request.request_type == 'UPDATE' %}
+                            <span class="type-badge badge-update">게시글 수정 요청</span>
+                        {% elif request.request_type == 'FEEDBACK' %}
+                            <span class="type-badge badge-feedback">불편사항 건의</span>
+                        {% endif %}
+
+                        {% if request.status == 'processing' %}
+                            <span class="status-badge badge-processing">처리중</span>
+                        {% elif request.status == 'done' %}
+                            <span class="status-badge badge-done">완료</span>
+                        {% else %}
+                            <span class="status-badge badge-rejected">거절됨</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <h1 class="detail-title">{{ request.title }}</h1>
+                <div class="detail-meta">
+                    <span class="meta-item">
+                        <span class="icon"></span> {{ request.requester.nickname|default:request.requester.username }}
+                    </span>
+                    <span class="meta-item">
+                        <span class="icon"></span> {{ request.created_at|date:"Y년 m월 d일 H:i" }}
+                    </span>
+                    {% if request.updated_at != request.created_at %}
+                        <span class="meta-item">
+                            <span class="icon"></span> {{ request.updated_at|date:"Y년 m월 d일 H:i" }} 수정됨
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- 내용 -->
+            <div class="detail-body">
+                <div class="content-section">
+                    <h3 class="section-title">요청 내용</h3>
+                    <div class="content-text">{{ request.content|linebreaks }}</div>
+                </div>
+
+                <!-- 관리자 검토 내용 (있을 경우) -->
+                {% if request.reviewer %}
+                    <div class="review-section">
+                        <h3 class="section-title">관리자 답변</h3>
+                        <div class="review-card">
+                            <div class="reviewer-info">
+                                <span class="icon"></span>
+                                <strong>{{ request.reviewer.nickname|default:request.reviewer.username }}</strong>
+                                <span class="review-date">{{ request.updated_at|date:"Y-m-d H:i" }}</span>
+                            </div>
+                            <p class="review-comment">{{ request.review_comment|linebreaks }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- 액션 버튼 -->
+            <div class="detail-actions">
+                <div class="action-group">
+                    <a href="{% url 'admin_request:request_list' %}" class="btn btn-secondary">
+                        <span class="btn-icon"></span> 목록으로
+                    </a>
+                </div>
+
+                {% if request.requester == user %}
+                    <div class="action-group">
+                        <a href="{% url 'admin_request:request_edit' request.pk %}" class="btn btn-edit">
+                            <span class="btn-icon"></span> 수정하기
+                        </a>
+                        <a href="{% url 'admin_request:request_delete' request.pk %}" class="btn btn-delete">
+                            <span class="btn-icon"></span> 삭제하기
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
         </div>
 
-        <div class="request-actions">
-            <a href="/admin-request">목록으로 돌아가기</a>
-            {% if request.requester == user %}
-                <a href="/admin-request/edit/{{ request.pk }}/">수정</a>
-                <a href="/admin-request/delete/{{ request.pk }}/">삭제</a>
-            {% endif %}
-        </div>
-
+        <!-- 관리자 검토 폼 -->
         {% if user.is_staff %}
-            <section class="admin-review">
-                <h4>관리자 검토</h4>
-                <form method="post">
+            <div class="admin-review-card">
+                <div class="review-header">
+                    <h2>관리자 검토</h2>
+                    <p class="subtitle">요청에 대한 검토 의견을 작성해주세요</p>
+                </div>
+                <form method="post" class="review-form">
                     {% csrf_token %}
-                    {{ review_form.as_p }}
-                    <button type="submit">저장</button>
+
+                    <div class="form-group">
+                        <label class="form-label">처리 상태</label>
+                        {{ review_form.status }}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">검토 의견</label>
+                        {{ review_form.review_comment }}
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon"></span> 검토 완료
+                        </button>
+                    </div>
                 </form>
-            </section>
+            </div>
         {% endif %}
-    </section>
+    </div>
 {% endblock %}
 
 {% block extra_js %}

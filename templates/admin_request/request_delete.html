@@ -1,14 +1,56 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_request/request_delete.css' %}">
+{% endblock %}
+
 {% block content %}
-    <section class="request-delete-section">
-        <h2>요청 삭제 확인</h2>
-        <p>정말로 요청 "{{ request_obj.title }}" 를 삭제하시겠습니까?</p>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit">삭제</button>
-            <a href="/admin-request/detail/{{ request_obj.pk }}/">취소</a>
-        </form>
-    </section>
+    <div class="delete-container">
+
+        <div class="delete-box">
+            <!-- 헤더 -->
+            <div class="delete-header">
+                <div class="warning-icon"></div>
+                <h1>요청 삭제 확인</h1>
+                <p class="subtitle">이 작업은 되돌릴 수 없습니다</p>
+            </div>
+
+            <!-- 요청 정보 -->
+            <div class="request-info">
+                <h3 class="section-title">삭제할 요청 정보</h3>
+                <div class="info-row">
+                    <span class="info-label">요청 제목</span>
+                    <span class="info-value">{{ request_obj.title }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">요청 유형</span>
+                    <span class="info-value">{{ request_obj.get_request_type_display }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">작성일</span>
+                    <span class="info-value">{{ request_obj.created_at|date:"Y년 m월 d일 H:i" }}</span>
+                </div>
+            </div>
+
+            <!-- 경고 메시지 -->
+            <div class="warning-box">
+                <p><strong>정말로 이 요청을 삭제하시겠습니까?</strong></p>
+                <p>삭제된 요청은 복구할 수 없습니다.</p>
+            </div>
+
+            <!-- 삭제 폼 -->
+            <form method="post" class="delete-form">
+                {% csrf_token %}
+                <div class="form-actions">
+                    <a href="{% url 'admin_request:request_detail' request_obj.pk %}" class="btn btn-cancel">
+                        <span class="btn-icon">↩</span> 취소
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <span class="btn-icon"></span> 삭제하기
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

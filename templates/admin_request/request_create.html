@@ -7,19 +7,89 @@
 
 {% block content %}
     <div class="container">
+        <!-- 뒤로가기 버튼 -->
+        <div class="breadcrumb">
+            </a>
+        </div>
+
         <div class="request-section">
             <div class="request-box">
-                <h1>관리자 요청 페이지</h1>
-                <form method="post">
+                <!-- 페이지 헤더 -->
+                <div class="page-header">
+                    <h1>관리자 요청</h1>
+                    <p class="subtitle">궁금한 점이나 건의사항을 관리자에게 전달해주세요</p>
+                </div>
+
+                <!-- 요청 폼 -->
+                <form method="post" class="request-form">
                     {% csrf_token %}
+
                     {% if form.non_field_errors %}
-                        <div class="errors">{{ form.non_field_errors }}</div>
+                        <div class="alert alert-error">
+                            {{ form.non_field_errors }}
+                        </div>
                     {% endif %}
-                    <div class="form-fields">
-                        {{ form.as_p }}
+
+                    <!-- 요청 유형 -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="required">*</span> 요청 유형
+                        </label>
+                        {{ form.request_type }}
+                        {% if form.request_type.errors %}
+                            <span class="error-message">{{ form.request_type.errors }}</span>
+                        {% endif %}
                     </div>
-                    <div>
-                        <button type="submit" class="submit">제출</button>
+
+                    <!-- 제목 -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="required">*</span> 요청 제목
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <span class="error-message">{{ form.title.errors }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- 내용 -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="required">*</span> 요청 내용
+                        </label>
+                        {{ form.content }}
+                        {% if form.content.errors %}
+                            <span class="error-message">{{ form.content.errors }}</span>
+                        {% endif %}
+                        <p class="help-text">요청 사항을 자세히 작성해주시면 더 빠르게 처리할 수 있습니다.</p>
+                    </div>
+
+                    <!-- 진행 안내 -->
+                    <div class="process-guide">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <p>요청 작성</p>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <p>관리자 검토</p>
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <p>답변 완료</p>
+                        </div>
+                    </div>
+
+                    <!-- 버튼 그룹 -->
+                    <div class="form-actions">
+                        <a href="{% url 'admin_request:request_list' %}" class="btn btn-cancel">
+                            <span class="btn-icon">↩</span> 목록으로
+                        </a>
+                        <button type="submit" class="btn btn-submit">
+                            <span class="btn-icon"></span> 요청 보내기
+                        </button>
                     </div>
                 </form>
             </div>

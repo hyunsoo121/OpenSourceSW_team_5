@@ -67,11 +67,19 @@ def request_create(request):
                     f"{ar.content}\n\n"
                     f"요청 상세 보기: {detail_url}\n"
                 )
+                # determine recipients: ADMIN_NOTIFICATION_EMAIL env var (comma-separated) or DEFAULT_FROM_EMAIL
+                recipients = os.environ.get("ADMIN_NOTIFICATION_EMAIL")
+                if recipients:
+                    recipient_list = [
+                        r.strip() for r in recipients.split(",") if r.strip()
+                    ]
+                else:
+                    recipient_list = [from_email]
                 send_mail(
                     subject,
                     message,
                     from_email,
-                    ["itformaition@gmail.com"],
+                    recipient_list,
                     fail_silently=False,
                 )
             except Exception as exc:

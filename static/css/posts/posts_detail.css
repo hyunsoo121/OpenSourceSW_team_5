@@ -1,26 +1,28 @@
-/* posts_detail.css */
+.post-header {
+  padding-left: 4px;
+}
 
 .hero-section {
-    background-color: #fff;
-    padding: 20px;
+  background-color: #fff;
+  padding: 20px;
 }
 
 .hero-section h2 {
-    color: #444;
+  color: #444;
 }
 
 .hero-section div {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
 }
+
 .dotted-divider {
   border: 0;
   border-top: 2px dashed #e0e0e0;
   margin: 18px 0;
 }
 
-/* --- 1. Header 영역 (listPage와 공통) --- */
 .page-header-container {
   max-width: 840px;
   margin: 0 auto 12px auto;
@@ -49,9 +51,18 @@
     padding: 0 6px;
   }
 
-  .header-logo { text-align: left; flex: 0 0 auto; }
-  .header-buttons { justify-content: flex-end; gap: 6px; }
-  .btn-detail { padding: 6px 10px; font-size: 0.82rem; }
+  .header-logo {
+    text-align: left;
+    flex: 0 0 auto;
+  }
+  .header-buttons {
+    justify-content: flex-end;
+    gap: 6px;
+  }
+  .btn-detail {
+    padding: 6px 10px;
+    font-size: 0.82rem;
+  }
 }
 
 .header-logo h1 {
@@ -111,7 +122,6 @@
   border-radius: 8px;
 }
 
-/* --- 2. Information 영역 --- */
 .info-container {
   max-width: 1100px;
   margin: 0 auto;
@@ -155,7 +165,6 @@
   font-weight: 500;
 }
 
-/* --- 3. Footer 영역 (listPage와 공통) --- */
 .page-footer-container {
   max-width: 1100px;
   margin: 0 auto;
@@ -164,9 +173,9 @@
 
 .footer-columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 .footer-column h4 {
@@ -220,13 +229,32 @@
 .footer-socials a {
   color: #555;
   font-size: 1.2rem;
+  text-decoration: none;
 }
 
-/* --- 4. Detail Page 고유 스타일 --- */
+.footer-socials img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
 
 .detail-content-container {
-  max-width: 900px; /* 본문 내용은 조금 좁게 */
+  max-width: 900px;
   margin: 0 auto;
+}
+
+.section-badge-title {
+  display: inline-block;
+  background-color: #6366f1;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
 }
 
 .detail-author-bio {
@@ -264,6 +292,10 @@
   margin-bottom: 30px;
 }
 
+.description-box {
+  padding-left: 4px;
+}
+
 .detail-info-list h3 {
   font-size: 1.3rem;
   font-weight: 600;
@@ -275,24 +307,32 @@
 .info-list-items {
   font-size: 0.95rem;
   color: #555;
-  line-height: 1.7; /* 줄 간격 */
+  line-height: 1.7;
 }
 
 .info-item {
-  margin-bottom: 8px; /* 항목 간 세로 간격 */
+  margin-bottom: 8px;
 }
 
 .info-label {
-  font-weight: bold; /* 폰트 굵게 */
-  margin-right: 10px; /* 라벨과 값 사이 간격 */
-  color: #333;
+  display: inline-block;
+  background-color: #f3f4f6;
+  color: #374151;
+  padding: 6px 12px;
+  margin: 4px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  min-width: 100px;
+  text-align: center;
+  margin-right: 15px;
+  flex-shrink: 0;
 }
 
-/* 갤러리 스타일 */
 .detail-gallery {
   margin-top: 40px;
   display: grid;
-  grid-template-columns: 1fr; /* 세로로 쌓기 */
+  grid-template-columns: 1fr;
   gap: 20px;
 }
 
@@ -301,4 +341,35 @@
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.post-footer {
+  margin-top: 50px;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.btn-badge-back {
+  display: inline-block;
+  background-color: #2d4bad;
+  color: white;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-badge-back:hover {
+  background-color: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
+}
+
+.link-text {
+  color: #2563eb;
+  font-weight: 600;
+  transition: color 0.2s;
 }

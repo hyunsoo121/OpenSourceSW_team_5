@@ -12,37 +12,41 @@
 <section id="mid-body" class="container mid">
 
     <!-- 추천 활동 섹션 -->
-	 <section class="recommendation-area" id="recommendation-area" style="padding: 40px; background: #f8f9fa; margin: 20px 0; border-radius: 8px;">
+    <section class="recommendation-area" id="recommendation-area"
+        style="padding: 40px; background: #f8f9fa; margin: 20px 0; border-radius: 8px;">
         <h3>✨ 회원님을 위한 추천 활동</h3>
 
         {% if user.is_authenticated %}
-            {% if recommended_posts %}
-                <div class="recommendation-grid">
-                    {% for post in recommended_posts %}
-                        <div class="post-card" style="border: 1px solid #ddd; padding: 20px; margin: 10px 0; border-radius: 8px; background: white;">
-                            <h4>{{ post.name }}</h4>
-                            <p>{{ post.description|truncatechars:100 }}</p>
-                            <p><strong>활동 타입:</strong> {{ post.get_type_display }}</p>
-                            <div class="post-meta">
-                                <span>모집 분야: {{ post.recruitment_fields }}</span><br>
-                                <span>지원 기간: {{ post.get_application_months_display }}</span><br>
-                                <span>활동 기간: {{ post.get_activity_months_display }}</span>
-                            </div>
-                            <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-sm btn-secondary" style="margin-top: 10px;">자세히 보기</a>
-                        </div>
-                    {% endfor %}
+        {% if recommended_posts %}
+        <div class="recommendation-grid">
+            {% for post in recommended_posts %}
+            <div class="post-card"
+                style="border: 1px solid #ddd; padding: 20px; margin: 10px 0; border-radius: 8px; background: white;">
+                <h4>{{ post.name }}</h4>
+                <p>{{ post.description|truncatechars:100 }}</p>
+                <p><strong>활동 타입:</strong> {{ post.get_type_display }}</p>
+                <div class="post-meta">
+                    <span>모집 분야: {{ post.recruitment_fields }}</span><br>
+                    <span>지원 기간: {{ post.get_application_months_display }}</span><br>
+                    <span>활동 기간: {{ post.get_activity_months_display }}</span>
                 </div>
-            {% else %}
-                <div style="padding: 20px; background: white; border-radius: 8px; text-align: center;">
-                    <p>현재 회원님의 관심분야(<strong>{{ user.get_interest_field_display }}</strong>)와 일치하는 추천 활동이 없습니다.</p>
-                    <p>모든 게시글을 탐색해 보세요!</p>
-                </div>
-            {% endif %}
-        {% else %}
-            <div style="padding: 40px; background: white; border-radius: 8px; text-align: center;">
-                <p style="font-size: 18px; margin-bottom: 20px;">🔒 로그인하여 맞춤 추천 활동을 확인해 보세요!</p>
-                <a href="{% url 'login' %}?next={{ request.path }}" class="btn" style="background: #333; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">로그인하기</a>
+                <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-sm btn-secondary"
+                    style="margin-top: 10px;">자세히 보기</a>
             </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="padding: 20px; background: white; border-radius: 8px; text-align: center;">
+            <p>현재 회원님의 관심분야(<strong>{{ user.get_interest_field_display }}</strong>)와 일치하는 추천 활동이 없습니다.</p>
+            <p>모든 게시글을 탐색해 보세요!</p>
+        </div>
+        {% endif %}
+        {% else %}
+        <div style="padding: 40px; background: white; border-radius: 8px; text-align: center;">
+            <p style="font-size: 18px; margin-bottom: 20px;">🔒 로그인하여 맞춤 추천 활동을 확인해 보세요!</p>
+            <a href="{% url 'login' %}?next={{ request.path }}" class="btn"
+                style="background: #333; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">로그인하기</a>
+        </div>
         {% endif %}
     </section>
     <!-- <section class="recommendation-area">
@@ -90,7 +94,7 @@
             <img src="{% static 'images/card-2.jpg' %}" alt="IT 동아리 활동">
         </figure>
         <div class="mid__text">
-            <h3>IT 관련 동아리 활동</h3>
+            <h2>IT 관련 동아리 활동</h2>
             <p>활동 소개와 참가 정보를 한눈에.</p>
             <a class="btn tiny" href="/posts/type/club/">알아보기</a>
         </div>
@@ -99,9 +103,9 @@
     <!-- 3행: 텍스트 | 이미지 -->
     <div class="mid__row">
         <div class="mid__text">
-            <h3>대외활동</h3>
+            <h2>대외활동</h2>
             <p>집중 커리큘럼으로 실무 역량을 키워보세요.</p>
-            <a class="btn tiny" href="/posts/type/bootcamp/">알아보기</a>
+            <a class="btn tiny" href="/posts/type/external/">알아보기</a>
         </div>
         <figure class="mid__media">
             <img src="{% static 'images/card-3.jpg' %}" alt="대외활동 이미지">
@@ -114,9 +118,9 @@
             <img src="{% static 'images/card-4.jpg' %}" alt="부트캠프 이미지">
         </figure>
         <div class="mid__text">
-            <h3>부트캠프</h3>
+            <h2>부트캠프</h2>
             <p>정부 지원으로 부담을 낮춘 교육 과정.</p>
-            <a class="btn tiny" href="#">알아보기</a>
+            <a class="btn tiny" href="/posts/type/bootcamp">알아보기</a>
         </div>
     </div>
 

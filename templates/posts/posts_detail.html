@@ -9,126 +9,134 @@
 {% block content %}
 
 <div class="page-header-container">
-  <div class="header-top">
-    <div class="header-logo">
-      <h1>ITformation</h1>
-      <p>IT 관련 모든 정보를 제공합니다.</p>
-    </div>
-    <div class="header-buttons">
-      <a href="#" class="btn-detail btn-detail-light">마이페이지</a>
-      <a href="#" class="btn-detail btn-detail-light">관리자 요청</a>
-      <a href="#" class="btn-detail btn-detail-dark">로그아웃</a>
-    </div>
-  </div>
   <div class="header-hero-image">
     <img src="{% static 'images/it-hero-image.jpg' %}" alt="IT 활동 배너">
   </div>
   <hr class="dotted-divider">
 </div>
 
-
 <div class="detail-content-container">
 
   <section class="post-detail-container">
     <header class="post-header">
       <h2>{{ post.name }}</h2>
-      <hr>
     </header>
 
     <div class="post-content">
-      <h3>동아리 소개</h3>
-      <p>{{ post.description|linebreaksbr }}</p>
+      <h3 class="section-badge-title">{{ post.get_type_display }} 소개</h3>
+
+      <div class="description-box">
+        <p>{{ post.description|linebreaksbr }}</p>
+        <br>
+      </div>
     </div>
 
+    <hr class="section-divider">
+
     <div class="post-info-box">
-      <h3>✅주요 모집 정보</h3>
+      <h3 class="section-badge-title">주요 모집 정보</h3>
       <ul class="info-list">
         <li>
-          <strong>모집 분야:</strong>
-          {{ post.get_recruitment_fields_display }}
+          <span class="info-label">모집 분야</span>
+          <span class="info-value">{{ post.get_recruitment_fields_display }}</span>
         </li>
         <li>
-          <strong>지원 기간:</strong>
-          {{ post.get_application_months_display }}
+          <span class="info-label">지원 기간</span>
+          <span class="info-value">{{ post.get_application_months_display }}</span>
         </li>
         <li>
-          <strong>활동 기간:</strong>
-          {{ post.get_activity_months_display }}
+          <span class="info-label">활동 기간</span>
+          <span class="info-value">{{ post.get_activity_months_display }}</span>
         </li>
         <li>
-          <strong>신청 자격 (소속):</strong>
-          {{ post.get_eligibility_display }}
+          <span class="info-label">신청 자격</span>
+          <span class="info-value">{{ post.get_eligibility_display }}</span>
         </li>
         <li>
-          <strong>요구 개발 레벨:</strong>
-          {{ post.get_required_dev_levels_display }}
+          <span class="info-label">요구 레벨</span>
+          <span class="info-value">{{ post.get_required_dev_levels_display }}</span>
         </li>
         <li>
-          <strong>활동 타입:</strong>
-          {{ post.get_type_display }}
+          <span class="info-label">활동 타입</span>
+          <span class="info-value">{{ post.get_type_display }}</span>
         </li>
       </ul>
     </div>
 
     <div class="post-links">
       {% if post.homepage_link %}
-      <p>
-        <strong>홈페이지:</strong>
-        <a href="{{ post.homepage_link }}" target="_blank">{{ post.name }} 공식 웹사이트</a>
-      </p>
+      <div class="link-item">
+        <span class="info-label">홈페이지</span>
+        <a href="{{ post.homepage_link }}" target="_blank" class="link-text">{{ post.name }} 공식 웹사이트</a>
+      </div>
       {% endif %}
 
       {% if post.reviews.exists %}
-      <p><strong>🔗 활동 후기 목록 ({{ post.reviews.count }}개)</strong></p>
-      <ul>
-        {% for review in post.reviews.all %}
-        <li>
-          <a href="{{ review.review_url }}" target="_blank">{{ review.review_title }}</a>
-        </li>
-        {% endfor %}
-      </ul>
+      <div class="link-group">
+        <span class="info-label" style="width: auto; padding-right: 20px;">활동 후기 ({{ post.reviews.count }}개)</span>
+        <ul class="review-list">
+          {% for review in post.reviews.all %}
+          <li>
+            <a href="{{ review.review_url }}" target="_blank">- {{ review.review_title }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
       {% endif %}
     </div>
 
     <footer class="post-footer">
-      <a href="{% url 'posts:posts_list' %}" class="btn btn-secondary">목록으로 돌아가기</a>
+      <a href="{% url 'posts:posts_list' %}" class="btn-badge-back">활동 전체 목록으로 돌아가기</a>
     </footer>
   </section>
 
   <hr class="dotted-divider">
-</div>
 
 
-<div class="page-footer-container">
-  <div class="footer-columns">
-    <div class="footer-column">
-      <h4>Here text</h4>
-      <p>amazing for websites is both simple and complex... [생략]</p>
+  <div class="page-footer-container">
+    <div class="footer-columns">
+      <div class="footer-column">
+        <h4>동아리</h4>
+        <p>
+          같은 관심사를 가진 동료들과 함께 성장하는 즐거움을 느껴보세요.
+          스터디와 팀 프로젝트를 통해 전공 지식을 깊이 있게 체화하고,
+          Git과 같은 협업 툴 사용법과 소통 능력을 기르며 개발자의 기초 체력을 다질 수 있습니다.
+        </p>
+      </div>
+      <div class="footer-column">
+        <h4>대외활동</h4>
+        <p>
+          학교 밖에서 더 넓은 세상을 경험할 기회입니다.
+          해커톤, 기업 서포터즈 등을 통해 타 대학생 및 현직자와 교류하며 시야를 넓히고,
+          단순 학점을 넘어 나만의 차별화된 경험과 매력적인 포트폴리오 스토리를 완성할 수 있습니다.
+        </p>
+      </div>
+      <div class="footer-column">
+        <h4>부트캠프</h4>
+        <p>
+          단기간에 몰입하여 실무형 인재로 거듭나는 지름길입니다.
+          이론 중심의 학습에서 벗어나 현업 트렌드에 맞는 최신 기술 스택을 집중적으로 훈련하고,
+          강도 높은 프로젝트 경험을 통해 실무에 즉시 투입 가능한 역량을 확보할 수 있습니다.
+        </p>
+      </div>
     </div>
-    <div class="footer-column">
-      <h4>There text</h4>
-      <p>Are you thinking of keywords you should rank for... [생략]</p>
-    </div>
-    <div class="footer-column">
-      <h4>Everywhere text</h4>
-      <p>There's a theory that people read in an F-shape pattern... [생략]</p>
+    <div class="footer-bottom-bar">
+      <div class="footer-links">
+        <strong>Namedly</strong>
+        <a href="#">Features</a>
+        <a href="#">Learn more</a>
+        <a href="#">Support</a>
+      </div>
+      <div class="footer-socials">
+        <a href="#"><img src="{% static 'images/instagram_icon.png' %}" alt="Instagram"></a>
+        <a href="#"><img src="{% static 'images/linkedin_icon.png' %}" alt="LinkedIn"></a>
+        <a href="#"><img src="{% static 'images/x_icon.png' %}" alt="X"></a>
+      </div>
     </div>
   </div>
-  <div class="footer-bottom-bar">
-    <div class="footer-links">
-      <strong>Namedly</strong>
-      <a href="#">Features</a>
-      <a href="#">Learn more</a>
-      <a href="#">Support</a>
-    </div>
-    <div class="footer-socials">
-      <a href="#">[IG]</a> <a href="#">[LI]</a> <a href="#">[X]</a>
-    </div>
-  </div>
-</div>
 
-{% endblock %}
+  {% endblock %}
 
-{% block extra_js %}
-<script src="{% static 'js/posts/posts_detail.js' %}"></script>
-{% endblock %}
+  {% block extra_js %}
+  <script src="{% static 'js/posts/posts_detail.js' %}"></script>
+  {% endblock %}

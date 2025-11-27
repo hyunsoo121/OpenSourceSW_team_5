@@ -2,6 +2,8 @@ asgiref==3.10.0
 cfgv==3.4.0
 distlib==0.4.0
 django==4.2.25
+django-widget-tweaks==1.5.0
+certifi==2024.2.2
 filelock==3.19.1
 identify==2.6.15
 nodeenv==1.9.1

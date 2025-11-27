@@ -34,7 +34,7 @@ def request_detail(request, request_id):
             review = form.save(commit=False)
             review.reviewer = request.user
             review.save()
-            return redirect("request_detail", request_id=req.pk)
+            return redirect("admin_request:request_detail", request_id=req.pk)
 
     review_form = AdminReviewForm(instance=req)
     return render(
@@ -59,7 +59,7 @@ def request_create(request):
                 )
                 subject = f"[관리자 요청] {ar.title}"
                 detail_url = request.build_absolute_uri(
-                    reverse("request_detail", args=[ar.pk])
+                    reverse("admin_request:request_detail", args=[ar.pk])
                 )
                 message = (
                     f"요청자: {ar.requester}\n"
@@ -67,11 +67,19 @@ def request_create(request):
                     f"{ar.content}\n\n"
                     f"요청 상세 보기: {detail_url}\n"
                 )
+                # determine recipients: ADMIN_NOTIFICATION_EMAIL env var (comma-separated) or DEFAULT_FROM_EMAIL
+                recipients = os.environ.get("ADMIN_NOTIFICATION_EMAIL")
+                if recipients:
+                    recipient_list = [
+                        r.strip() for r in recipients.split(",") if r.strip()
+                    ]
+                else:
+                    recipient_list = [from_email]
                 send_mail(
                     subject,
                     message,
                     from_email,
-                    ["itformaition@gmail.com"],
+                    recipient_list,
                     fail_silently=False,
                 )
             except Exception as exc:
@@ -81,7 +89,7 @@ def request_create(request):
                     exc,
                 )
 
-            return redirect("request_list")
+            return redirect("admin_request:request_list")
     else:
         form = AdminRequestForm()
     return render(request, "admin_request/request_create.html", {"form": form})
@@ -92,18 +100,18 @@ def request_edit(request, request_id):
     req = get_object_or_404(AdminRequest, pk=request_id)
     if req.requester != request.user:
         # only owner can edit
-        return redirect("request_detail", request_id=req.pk)
+        return redirect("admin_request:request_detail", request_id=req.pk)
 
     if request.method == "POST":
         form = AdminRequestForm(request.POST, instance=req)
         if form.is_valid():
             form.save()
-            return redirect("request_detail", request_id=req.pk)
+            return redirect("admin_request:request_detail", request_id=req.pk)
     else:
         form = AdminRequestForm(instance=req)
 
     return render(
-        request, "admin_request/request_edit.html", {"form": form, "request_obj": req}
+        request, "admin_request/request_edit.html", {"form": form, "object": req}
     )
 
 
@@ -111,7 +119,10 @@ def request_edit(request, request_id):
 def request_delete(request, request_id):
     req = get_object_or_404(AdminRequest, pk=request_id)
     if req.requester != request.user and not request.user.is_staff:
-        return redirect("request_detail", request_id=req.pk)
+        return redirect("admin_request:request_detail", request_id=req.pk)
 
-    req.delete()
-    return redirect("request_list")
+    if request.method == "POST":
+        req.delete()
+        return redirect("admin_request:request_list")
+
+    return render(request, "admin_request/request_delete.html", {"request_obj": req})

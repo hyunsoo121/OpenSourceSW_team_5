@@ -132,8 +132,8 @@ jobs:
             kubectl create secret generic django-secret \
               --from-literal=SECRET_KEY='${{ secrets.SECRET_KEY }}' \
               --from-literal=POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
-              --from-literal=EMAIL_HOST_PASSWORD='${{ secrets.EMAIL_HOST_PASSWORD }}'
-
+              --from-literal=EMAIL_HOST_PASSWORD='${{ secrets.EMAIL_HOST_PASSWORD }}' \
+              --kubeconfig ~/.kube/config
             # 5. K8s 설정 적용 (Deployment, Service 등)
             kubectl apply -f k8s/
 

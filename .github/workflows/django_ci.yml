@@ -118,7 +118,8 @@ jobs:
             cd OpenSourceSW_team_5
 
             # 2. 최신 코드 받기
-            git pull origin main
+            git fetch
+            git reset --hard origin/main
 
             # 3. Docker Hub 로그인 (이미지 pull 권한)
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin

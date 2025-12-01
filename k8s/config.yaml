@@ -6,9 +6,7 @@ data:
   # [공개 설정] 비밀번호가 아닌 설정값들만 모았습니다.
   DEBUG: "False"
   SECURE_SSL_REDIRECT: "True"
-
   ALLOWED_HOSTS: "localhost,127.0.0.1,web,django-service,34.19.138.132,itformation.p-e.kr"
-
   CSRF_TRUSTED_ORIGINS: "https://itformation.p-e.kr,http://itformation.p-e.kr:30000,http://34.19.138.132:30000,http://34.19.138.132"
   POSTGRES_DB: "itformation"
   POSTGRES_USER: "postgres"

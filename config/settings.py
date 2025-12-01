@@ -30,15 +30,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-0v_!9-elyaqth&u@0w#n(xi5vfn3p$cg@=rgga8bwf8*y4t5yu"
-
+SECRET_KEY = os.environ.get("SECRET_KEY", "INSECURE_DEFAULT_SECRET_FOR_DEBUG")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-_allowed = (
-    os.environ.get("ALLOWED_HOSTS") or os.environ.get("DJANGO_ALLOWED_HOSTS") or ""
-)
-ALLOWED_HOSTS = [h.strip() for h in _allowed.split(",") if h.strip()]
+ALLOWED_HOSTS = [
+    h.strip() for h in os.environ.get("ALLOWED_HOSTS", "").split(",") if h.strip()
+]
 
 
 # Application definition
@@ -146,7 +144,11 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
-CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
 
 # [보안 권장] 보안 연결이 아닌 경우 쿠키 전송 방지 (HTTPS 사용 시 True)
 # K8s Ingress를 통해 HTTPS를 사용하므로 이 값을 True로 설정하는 것이 좋습니다.

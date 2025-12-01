@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recommend/recommend_page.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="mid__row">
+        <div class="mid__text">
+            <h2>사용자 추천 기능</h2>
+            <p>사용자를 자동 분석하여 개인화 추천을 제공합니다.</p>
+            <!-- <a class="btn tiny" href="#">알아보기</a> -->
+        </div>
+        <!-- <figure class="mid__media">
+            <img src="{% static 'images/card-1.jpg' %}" alt="추천 기능 이미지">
+        </figure> -->
+    </div>
+
+<section id="mid-body" class="container mid">
+
+    <!-- 추천 활동 섹션 -->
+    <section class="recommendation-area" id="recommendation-area"
+        style="padding: 40px; background: #f8f9fa; margin: 20px 0; border-radius: 8px;">
+        <h3>✨ 회원님을 위한 추천 활동</h3>
+
+        {% if user.is_authenticated %}
+        {% if recommended_posts %}
+        <div class="recommendation-grid">
+            {% for post in recommended_posts %}
+            <div class="post-card"
+                style="border: 1px solid #ddd; padding: 20px; margin: 10px 0; border-radius: 8px; background: white;">
+                <h4>{{ post.name }}</h4>
+                <p>{{ post.description|truncatechars:100 }}</p>
+                <p><strong>활동 타입:</strong> {{ post.get_type_display }}</p>
+                <div class="post-meta">
+                    <span>모집 분야: {{ post.recruitment_fields }}</span><br>
+                    <span>지원 기간: {{ post.get_application_months_display }}</span><br>
+                    <span>활동 기간: {{ post.get_activity_months_display }}</span>
+                </div>
+                <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-sm btn-secondary"
+                    style="margin-top: 10px;">자세히 보기</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="padding: 20px; background: white; border-radius: 8px; text-align: center;">
+            <p>현재 회원님의 관심분야(<strong>{{ user.get_interest_field_display }}</strong>)와 일치하는 추천 활동이 없습니다.</p>
+            <p>모든 게시글을 탐색해 보세요!</p>
+        </div>
+        {% endif %}
+        {% else %}
+        <div style="padding: 40px; background: white; border-radius: 8px; text-align: center;">
+            <p style="font-size: 18px; margin-bottom: 20px;">🔒 로그인하여 맞춤 추천 활동을 확인해 보세요!</p>
+            <a href="{% url 'login' %}?next={{ request.path }}" class="btn"
+                style="background: #333; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">로그인하기</a>
+        </div>
+        {% endif %}
+    </section>
+
+</section>
+{% endblock %}

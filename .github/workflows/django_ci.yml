@@ -134,6 +134,7 @@ jobs:
               --from-literal=POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
               --from-literal=EMAIL_HOST_PASSWORD='${{ secrets.EMAIL_HOST_PASSWORD }}' \
               --kubeconfig ~/.kube/config
+              --insecure-skip-tls-verify
             # 5. K8s 설정 적용 (Deployment, Service 등)
             kubectl apply -f k8s/ --kubeconfig ~/.kube/config
 

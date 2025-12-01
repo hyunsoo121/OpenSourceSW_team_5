@@ -88,20 +88,24 @@ jobs:
           echo "DJANGO_EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend" >> .env.prod
 
       - name: Build Docker Compose
-        run: docker-compose config && docker-compose build
+        # [수정됨] docker-compose -> docker compose
+        run: docker compose config && docker compose build
 
       - name: Run Containers
-        run: docker-compose up -d
+        # [수정됨] docker-compose -> docker compose
+        run: docker compose up -d
 
       - name: Check Container Status
         run: |
           sleep 10
-          docker-compose ps
+          # [수정됨] docker-compose -> docker compose (아래 3곳 모두 변경)
+          docker compose ps
+
           # 컨테이너가 죽지 않고 살아있는지 확인
-          if [ $(docker-compose ps | grep "Up" | wc -l) -ge 3 ]; then
+          if [ $(docker compose ps --format json | jq 'length') -ge 3 ] || [ $(docker compose ps | grep "Up" | wc -l) -ge 3 ]; then
             echo "All 3 containers are running!"
           else
             echo "Some containers failed to start."
-            docker-compose logs
+            docker compose logs
             exit 1
           fi

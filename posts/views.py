@@ -91,7 +91,11 @@ def posts_ajax_list(request):
 # 게시판 목록 페이지 렌더링 (기본)
 def posts_list(request):
     posts = Post.objects.filter(is_published=True).order_by("-created_at")
-    return render(request, "posts/posts_list.html", {"posts": posts})
+    return render(
+        request,
+        "posts/posts_list.html",
+        {"posts": posts, "category_name": "전체 IT 활동"},
+    )
 
 
 def posts_type_list(request, type_code):
@@ -102,8 +106,19 @@ def posts_type_list(request, type_code):
     posts = Post.objects.filter(is_published=True, type=type_code.lower()).order_by(
         "-created_at"
     )
+
+    category_name = "IT 활동"
+    if type_code == "club":
+        category_name = "IT 동아리"
+    elif type_code == "external":
+        category_name = "대외활동"
+    elif type_code == "bootcamp":
+        category_name = "부트캠프"
+
     return render(
-        request, "posts/posts_list.html", {"posts": posts, "type_code": type_code}
+        request,
+        "posts/posts_list.html",
+        {"posts": posts, "type_code": type_code, "category_name": category_name},
     )
 
 

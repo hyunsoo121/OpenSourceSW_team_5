@@ -117,6 +117,7 @@ jobs:
             # 1. 프로젝트 폴더로 이동
             cd OpenSourceSW_team_5
 
+            export KUBECONFIG=~/.kube/config
             # 2. 최신 코드 받기
             git fetch
             git reset --hard origin/main

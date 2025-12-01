@@ -3,11 +3,15 @@ kind: Ingress
 metadata:
   name: django-ingress
   annotations:
-    # K3s에 기본으로 설치된 Traefik Ingress Controller를 사용하도록 명시
     kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  tls:
+  - hosts:
+    - itformation.p-e.kr
+    secretName: django-tls-certificate
   rules:
-  - host: itformation.p-e.kr  # <-- 사용자의 도메인 주소
+  - host: itformation.p-e.kr
     http:
       paths:
       - path: /

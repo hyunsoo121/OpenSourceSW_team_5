@@ -7,7 +7,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  # 1. 코드 스타일 검사 (Linting)
+  # ==========================================
+  # 1부: 코드 품질 및 빌드 테스트 (CI)
+  # ==========================================
   linting:
     runs-on: ubuntu-latest
     steps:
@@ -21,10 +23,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
       - name: Run Flake8
-        # E501: 줄 길이 제한 무시 (설정 필요에 따라 조정)
         run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=venv,migrations
 
-  # 2. 코드 포맷 검사 (Formatting)
   formatting:
     runs-on: ubuntu-latest
     steps:
@@ -35,10 +35,9 @@ jobs:
           python-version: '3.9'
       - name: Install Black
         run: pip install black
-      - name: Check Formatting with Black
+      - name: Check Formatting
         run: black . --check --exclude=venv/
 
-  # 3. 임포트 순서 검사 (Import Sorting)
   import-sorting:
     runs-on: ubuntu-latest
     steps:
@@ -52,7 +51,6 @@ jobs:
       - name: Check Import Sorting
         run: isort . --check-only --profile black --skip venv/
 
-  # 4. 보안 취약점 검사 (Security)
   security-check:
     runs-on: ubuntu-latest
     steps:
@@ -64,22 +62,19 @@ jobs:
       - name: Install Safety
         run: pip install safety
       - name: Run Security Check
-        # requirements.txt에 있는 패키지들의 보안 취약점을 검사
         run: safety check -r requirements.txt --continue-on-error
 
-  # 5. 도커 통합 빌드 테스트 (Integration Test)
   docker-build-test:
     runs-on: ubuntu-latest
-    needs: [linting, formatting, security-check] # 위 검사들이 통과해야 실행
+    needs: [linting, formatting, security-check]
     steps:
       - uses: actions/checkout@v3
-
-      # .env.prod 파일 가상 생성 (빌드 테스트용)
-      - name: Create .env.prod for test
+      # 테스트를 위한 가짜 .env.prod 생성 (배포용 아님)
+      - name: Create dummy .env.prod for test
         run: |
           echo "DEBUG=False" >> .env.prod
-          echo "SECRET_KEY=test_secret_key" >> .env.prod
-          echo "ALLOWED_HOSTS=localhost,127.0.0.1" >> .env.prod
+          echo "SECRET_KEY=test_key" >> .env.prod
+          echo "ALLOWED_HOSTS=localhost" >> .env.prod
           echo "POSTGRES_DB=test_db" >> .env.prod
           echo "POSTGRES_USER=test_user" >> .env.prod
           echo "POSTGRES_PASSWORD=test_pw" >> .env.prod
@@ -88,24 +83,58 @@ jobs:
           echo "DJANGO_EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend" >> .env.prod
 
       - name: Build Docker Compose
-        # [수정됨] docker-compose -> docker compose
         run: docker compose config && docker compose build
 
       - name: Run Containers
-        # [수정됨] docker-compose -> docker compose
         run: docker compose up -d
 
       - name: Check Container Status
         run: |
           sleep 10
-          # [수정됨] docker-compose -> docker compose (아래 3곳 모두 변경)
           docker compose ps
-
-          # 컨테이너가 죽지 않고 살아있는지 확인
-          if [ $(docker compose ps --format json | jq 'length') -ge 3 ] || [ $(docker compose ps | grep "Up" | wc -l) -ge 3 ]; then
-            echo "All 3 containers are running!"
+          if [ $(docker compose ps | grep "Up" | wc -l) -ge 3 ]; then
+            echo "All containers running!"
           else
-            echo "Some containers failed to start."
             docker compose logs
             exit 1
           fi
+
+  # ==========================================
+  # 2부: 서버 자동 배포 (CD) - 여기가 핵심!
+  # ==========================================
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [docker-build-test] # 테스트가 다 통과해야만 실행
+    steps:
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: 22
+          script: |
+            # 1. 프로젝트 폴더로 이동 (폴더명이 맞는지 꼭 확인하세요!)
+            cd OpenSourceSW_team_5th
+
+            # 2. 최신 코드 받기
+            git pull origin main
+
+            # 3. Docker Hub 로그인 (이미지 pull 권한)
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+            # 4. [중요] 기존 비밀번호 삭제 후 새로 주입
+            # 깃허브 Secrets에 저장된 값을 서버의 K8s Secret으로 변환하는 과정입니다.
+            kubectl delete secret django-secret --ignore-not-found
+
+            kubectl create secret generic django-secret \
+              --from-literal=SECRET_KEY='${{ secrets.SECRET_KEY }}' \
+              --from-literal=POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
+              --from-literal=EMAIL_HOST_PASSWORD='${{ secrets.EMAIL_HOST_PASSWORD }}'
+
+            # 5. K8s 설정 적용 (Deployment, Service 등)
+            kubectl apply -f k8s/
+
+            # 6. 배포 상태 확인
+            echo "Deployment triggered!"
+            kubectl get pods

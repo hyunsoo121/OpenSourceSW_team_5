@@ -2,9 +2,10 @@
 .page-header-container,
 .info-container,
 .page-footer-container {
-  max-width: 840px; /* 더 컴팩트하게 축소 */
-  margin: 0 auto; /* 상하 여백 제거 */
-  padding: 0 8px; /* 모바일/데스크탑에서 좌우 여백 보정 */
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 0 8px;
+  position: relative;
 }
 
 .page-header-container { margin-bottom: 12px; }
@@ -22,21 +23,23 @@
 
 .header-logo { text-align: center; }
 
-/* Desktop: make header-top horizontal with logo left and buttons right */
+/* Desktop & Tablet: make header-top horizontal with logo left and buttons right */
 @media (min-width: 768px) {
   .header-top {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 8px; /* 더 좁은 간격 */
-    padding: 0 6px; /* 내부 여백으로 좌우 공간 보정 */
+    gap: 8px;
+    padding: 0 6px;
   }
 
   .header-logo { text-align: left; flex: 0 0 auto; }
   .header-buttons { justify-content: flex-end; gap: 6px; }
   .btn-detail { padding: 6px 10px; font-size: 0.82rem; }
 }
+
 .header-logo h1 { font-size: 1.8rem; font-weight: 700; margin: 0; }
+.header-logo h1 a { color: inherit; text-decoration: none; }
 .header-logo p { font-size: 0.85rem; color: #666; margin: 4px 0 0 0; }
 
 .header-buttons { display: flex; gap: 6px; }
@@ -48,6 +51,7 @@
   transition: all 0.12s ease;
   border: 1px solid #ccc;
   font-size: 0.82rem;
+  text-decoration: none;
 }
 .btn-detail-light { background-color: #fff; color: #333; }
 .btn-detail-light:hover { background-color: #f8f8f8; }
@@ -56,3 +60,153 @@
 
 .header-hero-image { text-align: center; }
 .header-hero-image img { width: 100%; height: auto; max-height: 220px; object-fit: cover; border-radius: 8px; }
+
+/* --- 햄버거 메뉴 버튼 (모바일만) --- */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  position: absolute;
+  right: 8px;
+  top: 20px;
+}
+
+.mobile-menu-toggle span {
+  width: 30px;
+  height: 3px;
+  background: #333;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: translateY(11px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: translateY(-11px) rotate(-45deg);
+}
+
+/* --- 메인 네비게이션 바 --- */
+.main-navigation {
+  background-color: #2c2c2c;
+  padding: 0;
+  margin: 16px 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  transition: all 0.3s ease;
+}
+
+.main-navigation a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 14px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  border-right: 1px solid #444;
+}
+
+.main-navigation a:first-child {
+  border-left: none;
+}
+
+.main-navigation a:last-child {
+  border-right: none;
+}
+
+.main-navigation a:hover {
+  background-color: #444;
+}
+
+/* 태블릿 (768px ~ 1023px) - 메뉴 크기 조정 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .main-navigation a {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+/* 모바일 반응형 (767px 이하만) */
+@media (max-width: 767px) {
+  /* 햄버거 버튼 표시 */
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  /* 메뉴 숨김 처리 */
+  .main-navigation {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding-top: 60px;
+    margin: 0;
+    overflow-y: auto;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+  }
+
+  /* 메뉴 활성화 시 */
+  .main-navigation.active {
+    right: 0;
+  }
+
+  .main-navigation a {
+    text-align: left;
+    border-right: none;
+    border-bottom: 1px solid #444;
+    padding: 16px 24px;
+  }
+
+  .main-navigation a:last-child {
+    border-bottom: none;
+  }
+
+  /* 메뉴 열렸을 때 배경 오버레이 */
+  .main-navigation.active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+}
+
+/* 작은 모바일 (480px 이하) */
+@media (max-width: 480px) {
+  .main-navigation {
+    width: 250px;
+  }
+
+  .header-logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-logo p {
+    font-size: 0.75rem;
+  }
+}

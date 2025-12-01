@@ -74,7 +74,7 @@ jobs:
         run: |
           echo "DEBUG=False" >> .env.prod
           echo "SECRET_KEY=test_key" >> .env.prod
-          echo "ALLOWED_HOSTS=itformation.p-e.kr" >> .env.prod
+          echo "ALLOWED_HOSTS=localhost" >> .env.prod
           echo "POSTGRES_DB=test_db" >> .env.prod
           echo "POSTGRES_USER=test_user" >> .env.prod
           echo "POSTGRES_PASSWORD=test_pw" >> .env.prod

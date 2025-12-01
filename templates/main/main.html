@@ -3,128 +3,148 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/main/main.css' %}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<section id="mid-body" class="container mid">
-
-    <!-- 추천 활동 섹션 -->
-    <section class="recommendation-area" id="recommendation-area"
-        style="padding: 40px; background: #f8f9fa; margin: 20px 0; border-radius: 8px;">
-        <h3>✨ 회원님을 위한 추천 활동</h3>
-
-        {% if user.is_authenticated %}
-        {% if recommended_posts %}
-        <div class="recommendation-grid">
-            {% for post in recommended_posts %}
-            <div class="post-card"
-                style="border: 1px solid #ddd; padding: 20px; margin: 10px 0; border-radius: 8px; background: white;">
-                <h4>{{ post.name }}</h4>
-                <p>{{ post.description|truncatechars:100 }}</p>
-                <p><strong>활동 타입:</strong> {{ post.get_type_display }}</p>
-                <div class="post-meta">
-                    <span>모집 분야: {{ post.recruitment_fields }}</span><br>
-                    <span>지원 기간: {{ post.get_application_months_display }}</span><br>
-                    <span>활동 기간: {{ post.get_activity_months_display }}</span>
-                </div>
-                <a href="{% url 'posts:posts_detail' post.pk %}" class="btn btn-sm btn-secondary"
-                    style="margin-top: 10px;">자세히 보기</a>
+<div class="intro-container">
+    <!-- Hero Section -->
+    <section class="intro-hero">
+        <div class="hero-content">
+            <h1 class="hero-title">ITformation</h1>
+            <p class="hero-subtitle">IT 관련 활동 정보를 한 곳에서</p>
+            <p class="hero-description">동아리, 대외활동, 부트캠프까지 맞춤형 추천으로 여러분의 성장을 돕습니다</p>
+            <div class="hero-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'recommend' %}" class="btn-hero btn-primary">맞춤 추천 보기</a>
+                    <a href="{% url 'posts:posts_list' %}" class="btn-hero btn-secondary">활동 둘러보기</a>
+                {% else %}
+                    <a href="{% url 'posts:posts_list' %}" class="btn-hero btn-primary">활동 둘러보기</a>
+                    <a href="{% url 'login' %}" class="btn-hero btn-secondary">로그인</a>
+                {% endif %}
             </div>
-            {% endfor %}
         </div>
-        {% else %}
-        <div style="padding: 20px; background: white; border-radius: 8px; text-align: center;">
-            <p>현재 회원님의 관심분야(<strong>{{ user.get_interest_field_display }}</strong>)와 일치하는 추천 활동이 없습니다.</p>
-            <p>모든 게시글을 탐색해 보세요!</p>
-        </div>
-        {% endif %}
-        {% else %}
-        <div style="padding: 40px; background: white; border-radius: 8px; text-align: center;">
-            <p style="font-size: 18px; margin-bottom: 20px;">🔒 로그인하여 맞춤 추천 활동을 확인해 보세요!</p>
-            <a href="{% url 'login' %}?next={{ request.path }}" class="btn"
-                style="background: #333; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">로그인하기</a>
-        </div>
-        {% endif %}
     </section>
-    <!-- <section class="recommendation-area">
-        <h2>✨ 회원님을 위한 추천 활동</h2>
-        {% if recommended_posts %}
-            <div class="recommendation-grid">
-                {% for post in recommended_posts %}
-                    <div class="post-card">
-                        <h4> post.name </h4>
-                        <p class="post-description"> post.description|truncatechars:100 </p>
-                        <p><strong>활동 타입:</strong>  post.get_type_display </p>
-                        <div class="post-meta">
-                            <span><strong>모집 분야:</strong>  post.recruitment_fields </span>
-                            <span><strong>지원 기간:</strong>  post.get_application_months_display </span>
-                            <span><strong>활동 기간:</strong>  post.get_activity_months_display </span>
-                        </div>
-                        <a href="{% url 'posts:posts_detail' post.pk %}" class="btn tiny">자세히 보기</a>
-                    </div>
-                {% endfor %}
+
+    <!-- Features Section -->
+    <section class="intro-features">
+        <h2 class="section-title">주요 기능</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>맞춤형 추천</h3>
+                <p>관심 분야를 분석하여 딱 맞는 활동을 추천합니다</p>
             </div>
-        {% else %}
-            {% if nickname %}
-                <p class="no-results">현재 회원님의 관심사와 일치하는 추천 게시글이 없습니다. 모든 게시글을 탐색해 보세요!</p>
-            {% else %}
-                <p class="no-results">로그인하여 맞춤 추천 게시글을 확인해 보세요.</p>
-            {% endif %}
-        {% endif %}
-    </section> -->
-
-    <!-- 1행: 텍스트 | 이미지 -->
-    <div class="mid__row">
-        <div class="mid__text">
-            <h2>사용자 추천 기능</h2>
-            <p>사용자를 자동 분석하여 개인화 추천을 제공합니다.</p>
-            <a class="btn tiny" href="#">알아보기</a>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>다양한 카테고리</h3>
+                <p>동아리, 대외활동, 부트캠프 등 다양한 IT 활동 정보</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>상세 검색</h3>
+                <p>활동 기간, 분야, 타입별로 원하는 정보를 빠르게 찾기</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>커뮤니티</h3>
+                <p>다른 사용자들과 정보를 공유하고 소통하기</p>
+            </div>
         </div>
-        <figure class="mid__media">
-            <img src="{% static 'images/card-1.jpg' %}" alt="추천 기능 이미지">
-        </figure>
-    </div>
+    </section>
 
-    <!-- 2행: 이미지 | 텍스트 -->
-    <div class="mid__row reverse">
-        <figure class="mid__media">
-            <img src="{% static 'images/card-2.jpg' %}" alt="IT 동아리 활동">
-        </figure>
-        <div class="mid__text">
-            <h2>IT 관련 동아리 활동</h2>
-            <p>활동 소개와 참가 정보를 한눈에.</p>
-            <a class="btn tiny" href="/posts/type/club/">알아보기</a>
+    <!-- Activity Types Section -->
+    <section class="intro-activities">
+        <h2 class="section-title">활동 유형</h2>
+        <div class="activities-grid">
+            <div class="activity-card">
+                <div class="activity-image">
+                    <img src="{% static 'images/club.jpg' %}" alt="동아리" onerror="this.style.display='none'">
+                </div>
+                <div class="activity-content">
+                    <h3>IT 동아리</h3>
+                    <p>학교 또는 지역 기반의 IT 동아리 활동 정보</p>
+                    <ul>
+                        <li>프로그래밍 스터디</li>
+                        <li>프로젝트 협업</li>
+                        <li>네트워킹 기회</li>
+                    </ul>
+                    <a href="/posts/type/club/" class="activity-link">동아리 보기 →</a>
+                </div>
+            </div>
+            <div class="activity-card">
+                <div class="activity-image">
+                    <img src="{% static 'images/external.jpg' %}" alt="대외활동" onerror="this.style.display='none'">
+                </div>
+                <div class="activity-content">
+                    <h3>대외활동</h3>
+                    <p>기업 및 단체에서 진행하는 IT 관련 대외활동</p>
+                    <ul>
+                        <li>현업 경험</li>
+                        <li>포트폴리오 구축</li>
+                        <li>취업 연계</li>
+                    </ul>
+                    <a href="/posts/type/external/" class="activity-link">대외활동 보기 →</a>
+                </div>
+            </div>
+            <div class="activity-card">
+                <div class="activity-image">
+                    <img src="{% static 'images/bootcamp.jpg' %}" alt="부트캠프" onerror="this.style.display='none'">
+                </div>
+                <div class="activity-content">
+                    <h3>부트캠프</h3>
+                    <p>집중 교육 프로그램으로 실무 역량 강화</p>
+                    <ul>
+                        <li>체계적인 커리큘럼</li>
+                        <li>멘토링 지원</li>
+                        <li>취업 지원</li>
+                    </ul>
+                    <a href="/posts/type/bootcamp/" class="activity-link">부트캠프 보기 →</a>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- 3행: 텍스트 | 이미지 -->
-    <div class="mid__row">
-        <div class="mid__text">
-            <h2>대외활동</h2>
-            <p>집중 커리큘럼으로 실무 역량을 키워보세요.</p>
-            <a class="btn tiny" href="/posts/type/external/">알아보기</a>
+    <!-- How It Works Section -->
+    <section class="intro-howto">
+        <h2 class="section-title">이용 방법</h2>
+        <div class="howto-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>회원가입</h3>
+                <p>관심 분야를 설정하고 프로필을 완성하세요</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>활동 탐색</h3>
+                <p>추천 활동을 확인하거나 직접 검색해보세요</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>지원하기</h3>
+                <p>마음에 드는 활동을 찾아 바로 지원하세요</p>
+            </div>
         </div>
-        <figure class="mid__media">
-            <img src="{% static 'images/card-3.jpg' %}" alt="대외활동 이미지">
-        </figure>
-    </div>
+    </section>
 
-    <!-- 4행: 이미지 | 텍스트 -->
-    <div class="mid__row reverse">
-        <figure class="mid__media">
-            <img src="{% static 'images/card-4.jpg' %}" alt="부트캠프 이미지">
-        </figure>
-        <div class="mid__text">
-            <h2>부트캠프</h2>
-            <p>정부 지원으로 부담을 낮춘 교육 과정.</p>
-            <a class="btn tiny" href="/posts/type/bootcamp">알아보기</a>
+    <!-- CTA Section -->
+    <section class="intro-cta">
+        <div class="cta-content">
+            <h2>지금 바로 시작하세요</h2>
+            <p>여러분의 성장을 위한 첫 걸음을 ITformation과 함께</p>
+            <div class="cta-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'recommend' %}" class="btn-cta btn-cta-primary">맞춤 추천 보기</a>
+                    <a href="{% url 'posts:posts_list' %}" class="btn-cta btn-cta-secondary">활동 둘러보기</a>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="btn-cta btn-cta-primary">무료로 시작하기</a>
+                    <a href="{% url 'posts:posts_list' %}" class="btn-cta btn-cta-secondary">활동 둘러보기</a>
+                {% endif %}
+            </div>
         </div>
-    </div>
-
-</section>
+    </section>
+</div>
 {% endblock %}
 
 {% block extra_js %}

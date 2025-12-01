@@ -5,7 +5,7 @@ metadata:
 data:
   # [공개 설정] 비밀번호가 아닌 설정값들만 모았습니다.
   DEBUG: "False"
-  ALLOWED_HOSTS: "localhost,127.0.0.1,web,django-service"
+  ALLOWED_HOSTS: "itformation.p-e.kr,django-service"
   POSTGRES_DB: "itformation"
   POSTGRES_USER: "postgres"
   POSTGRES_HOST: "postgres-service"

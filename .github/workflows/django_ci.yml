@@ -135,8 +135,8 @@ jobs:
               --from-literal=EMAIL_HOST_PASSWORD='${{ secrets.EMAIL_HOST_PASSWORD }}' \
               --kubeconfig ~/.kube/config
             # 5. K8s 설정 적용 (Deployment, Service 등)
-            kubectl apply -f k8s/
+            kubectl apply -f k8s/ --kubeconfig ~/.kube/config
 
             # 6. 배포 상태 확인
             echo "Deployment triggered!"
-            kubectl get pods
+            kubectl get pods --kubeconfig ~/.kube/config

@@ -71,7 +71,7 @@ def request_create(request):
                     subject,
                     message,
                     from_email,
-                    ["itformaition@gmail.com"],
+                    ["itformation702@gmail.com"],
                     fail_silently=False,
                 )
             except Exception as exc:

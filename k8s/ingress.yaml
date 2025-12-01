@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: django-ingress
+  annotations:
+    # K3s에 기본으로 설치된 Traefik Ingress Controller를 사용하도록 명시
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: itformation.p-e.kr  # <-- 사용자의 도메인 주소
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            # 트래픽을 Nginx Service로 전달
+            name: nginx-service
+            port:
+              # Nginx Service의 포트 (Nginx Pod의 80번 포트)
+              number: 80

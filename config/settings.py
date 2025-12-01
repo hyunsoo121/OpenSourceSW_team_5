@@ -17,7 +17,7 @@ try:
     # load .env from project root if present (optional; requires python-dotenv)
     from dotenv import load_dotenv
 
-    load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+    # load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 except Exception:
     # python-dotenv may not be installed in all environments; fall back to env vars
     pass

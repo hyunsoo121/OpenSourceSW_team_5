@@ -35,17 +35,26 @@ spec:
             memory: "512Mi"
             cpu: "500m"
 
-        # 1. 일반 설정은 ConfigMap에서 가져옴
-        envFrom:
-          - configMapRef:
-              name: django-config
-        # 2. [보안] 비밀번호는 Secret 금고에서 꺼내옴
+        # [수정됨] ConfigMap에서 필요한 DB/User 변수만 개별적으로 가져옴
         env:
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: django-secret
-                key: POSTGRES_PASSWORD
+        # [DB 초기화 필수 변수 3가지로만 구성]
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: django-secret
+              key: POSTGRES_PASSWORD
+        # POSTGRES_PASSWORD은 위에서 한 번만 설정합니다.
+
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: postgres-storage

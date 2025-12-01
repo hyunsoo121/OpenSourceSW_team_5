@@ -7,7 +7,7 @@ data:
   DEBUG: "False"
   ALLOWED_HOSTS: "localhost,127.0.0.1,web,django-service"
   POSTGRES_DB: "itformation"
-  POSTGRES_USER: "root"
+  POSTGRES_USER: "postgres"
   POSTGRES_HOST: "postgres-service"
   POSTGRES_PORT: "5432"
   EMAIL_HOST_USER: "itformation702@gmail.com"

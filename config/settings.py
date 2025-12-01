@@ -145,6 +145,13 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+
+# [보안 권장] 보안 연결이 아닌 경우 쿠키 전송 방지 (HTTPS 사용 시 True)
+# K8s Ingress를 통해 HTTPS를 사용하므로 이 값을 True로 설정하는 것이 좋습니다.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", "False") == "True"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

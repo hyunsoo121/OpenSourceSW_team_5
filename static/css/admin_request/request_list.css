@@ -279,3 +279,8 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.request-list-section p a {
+    color: #007bff;
+    text-decoration: blackline;
+}

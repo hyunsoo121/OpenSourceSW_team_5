@@ -8,12 +8,12 @@
 
 {% block content %}
 
-<div class="page-header-container">
+<!-- <div class="page-header-container">
   <div class="header-hero-image">
     <img src="{% static 'images/it-hero-image.jpg' %}" alt="IT 활동 배너">
   </div>
   <hr class="dotted-divider">
-</div>
+</div> -->
 
 <div class="detail-content-container">
 
@@ -21,6 +21,8 @@
     <header class="post-header">
       <h2>{{ post.name }}</h2>
     </header>
+    <div><br></div>
+        <hr class="section-divider">
 
     <div class="post-content">
       <h3 class="section-badge-title">{{ post.get_type_display }} 소개</h3>
@@ -30,8 +32,6 @@
         <br>
       </div>
     </div>
-
-    <hr class="section-divider">
 
     <div class="post-info-box">
       <h3 class="section-badge-title">주요 모집 정보</h3>

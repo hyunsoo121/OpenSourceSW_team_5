@@ -5,7 +5,9 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.html import strip_tags
 
 from .forms import AdminRequestForm, AdminReviewForm
 from .models import AdminRequest
@@ -61,12 +63,21 @@ def request_create(request):
                 detail_url = request.build_absolute_uri(
                     reverse("admin_request:request_detail", args=[ar.pk])
                 )
-                message = (
-                    f"요청자: {ar.requester}\n"
-                    f"요청 유형: {ar.get_request_type_display()}\n\n"
-                    f"{ar.content}\n\n"
-                    f"요청 상세 보기: {detail_url}\n"
+                # Plain-text and HTML email using a small template for nicer formatting.
+                context = {
+                    "requester": ar.requester,
+                    "title": ar.title,
+                    "request_type": ar.get_request_type_display(),
+                    "content": ar.content,
+                    "detail_url": detail_url,
+                }
+
+                html_message = render_to_string(
+                    "admin_request/email/admin_request_notification.html",
+                    context,
                 )
+                plain_message = strip_tags(html_message)
+
                 # determine recipients: ADMIN_NOTIFICATION_EMAIL env var (comma-separated) or DEFAULT_FROM_EMAIL
                 recipients = os.environ.get("ADMIN_NOTIFICATION_EMAIL")
                 if recipients:
@@ -75,11 +86,18 @@ def request_create(request):
                     ]
                 else:
                     recipient_list = [from_email]
+
+                # Log recipient count for visibility but don't log addresses in prod.
+                logger.info(
+                    "Sending admin request email to %d recipients", len(recipient_list)
+                )
+
                 send_mail(
                     subject,
-                    message,
+                    plain_message,
                     from_email,
                     recipient_list,
+                    html_message=html_message,
                     fail_silently=False,
                 )
             except Exception as exc:

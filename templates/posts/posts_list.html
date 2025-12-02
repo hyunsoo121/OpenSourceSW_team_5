@@ -176,6 +176,23 @@
             if (values) params.append(paramName, values);
         });
 
+        // If this page was rendered for a specific `type_code` (e.g. 'club'), include it
+        // so AJAX requests stay scoped to that type. `type_code` is provided by the view
+        // when using `posts_type_list`. As a fallback, try to parse the type from
+        // the URL path (e.g. /posts/type/bootcamp/) so client-side navigation still works.
+        let pageType = "{{ type_code|default:'' }}";
+        // Fallback: extract from pathname if not provided by the template
+        if (!pageType) {
+            const m = window.location.pathname.match(/type\/(club|external|bootcamp)\/?$/i);
+            if (m) pageType = m[1].toLowerCase();
+        }
+
+        // Debug: show chosen pageType in console (remove in production if noisy)
+        if (pageType) {
+            console.debug('posts list pageType=', pageType);
+            params.append('type', pageType);
+        }
+
         fetch(`{% url 'posts:posts_ajax_list' %}?${params.toString()}`)
             .then(response => response.text())
             .then(html => {

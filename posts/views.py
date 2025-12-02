@@ -11,8 +11,11 @@ def posts_ajax_list(request):
     posts = Post.objects.filter(is_published=True).order_by("-created_at")
     # 페이지 타입 필터 (예: club, external, bootcamp) — AJAX에서 전달될 수 있음
     type_param = request.GET.get("type")
-    if type_param and type_param != "ALL":
-        posts = posts.filter(type=type_param.lower())
+    # Normalize and apply type filter (accepts 'club', 'external', 'bootcamp' or case variants)
+    if type_param:
+        t = type_param.strip().lower()
+        if t and t != "all":
+            posts = posts.filter(type__iexact=t)
     # 다중 선택(콤마로 구분된 값)이 전달될 수 있음. 기본값은 ALL.
     field = request.GET.get("field")  # e.g. 'BACKEND,FRONTEND' or 'ALL'
     quarter = request.GET.get("quarter")

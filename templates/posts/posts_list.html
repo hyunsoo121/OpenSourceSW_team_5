@@ -36,8 +36,7 @@
             <option value="-created_at">최신순</option>
             <option value="created_at">등록순</option>
         </select>
-        <input type="text" id="search-input" placeholder="키워드를 입력하세요">
-        <button type="button" class="btn-search" onclick="updatePosts()">검색</button>
+        <!-- 검색 기능 미구현으로 검색 입력 및 버튼을 제거했습니다 -->
     </div>
 
     <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
@@ -164,8 +163,16 @@
     function updatePosts() {
         const params = new URLSearchParams();
 
-        const keyword = document.getElementById('search-input').value;
-        if (keyword) params.append('search', keyword);
+        // Optional search input: only read if present (search currently disabled in UI)
+        const searchEl = document.getElementById('search-input');
+        if (searchEl) {
+            const keyword = searchEl.value;
+            if (keyword) params.append('search', keyword);
+        }
+
+        // Trigger update when sort selection changes (keeps UX responsive)
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) sortSelect.addEventListener('change', updatePosts);
 
         const sort = document.getElementById('sort-select').value;
         if (sort) params.append('sort', sort);

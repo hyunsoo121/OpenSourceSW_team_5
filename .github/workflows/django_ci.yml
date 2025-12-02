@@ -69,7 +69,7 @@ jobs:
     needs: [linting, formatting, security-check]
     steps:
       - uses: actions/checkout@v3
-      # 테스트를 위한 가짜 .env.prod 생성 (배포용 아님)
+      # 테스트용 더미 환경변수 생성 (빌드 테스트 통과용)
       - name: Create dummy .env.prod for test
         run: |
           echo "DEBUG=False" >> .env.prod
@@ -100,11 +100,43 @@ jobs:
           fi
 
   # ==========================================
-  # 2부: 서버 자동 배포 (CD) - 여기가 핵심!
+  # [추가됨] 2부: 실제 배포용 이미지 빌드 및 푸시 (CD 준비)
+  # ==========================================
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    needs: [docker-build-test] # 테스트 통과 후 실행
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          # [중요] GCP VM 아키텍처(AMD64)에 맞춰 빌드
+          platforms: linux/amd64
+          push: true
+          tags: heksis/oss-django:latest
+
+  # ==========================================
+  # 3부: 서버 자동 배포 (CD 실행)
   # ==========================================
   deploy:
     runs-on: ubuntu-latest
-    needs: [docker-build-test] # 테스트가 다 통과해야만 실행
+    needs: [build-and-push-image] # 이미지가 올라간 후 실행되어야 함
     steps:
       - name: Deploy to Server via SSH
         uses: appleboy/ssh-action@master
@@ -118,25 +150,29 @@ jobs:
             cd OpenSourceSW_team_5
 
             export KUBECONFIG=~/.kube/config
-            # 2. 최신 코드 받기
+
+            # 2. 최신 코드 받기 (K8s YAML 파일 갱신용)
             git fetch
             git reset --hard origin/main
 
-            # 3. Docker Hub 로그인 (이미지 pull 권한)
+            # 3. Docker Hub 로그인 (이미지 pull 권한 갱신)
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-            # 4. [중요] 기존 비밀번호 삭제 후 새로 주입
-            # 깃허브 Secrets에 저장된 값을 서버의 K8s Secret으로 변환하는 과정입니다.
-            kubectl delete secret django-secret --ignore-not-found
+            # 4. Secret 갱신 (비밀번호 변경 시 자동 반영)
+            kubectl delete secret django-secret --ignore-not-found --kubeconfig ~/.kube/config
 
             kubectl create secret generic django-secret \
               --from-literal=SECRET_KEY='${{ secrets.SECRET_KEY }}' \
               --from-literal=POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
               --from-literal=EMAIL_HOST_PASSWORD='${{ secrets.EMAIL_HOST_PASSWORD }}' \
               --kubeconfig ~/.kube/config
+
             # 5. K8s 설정 적용 (Deployment, Service 등)
             kubectl apply -f k8s/ --kubeconfig ~/.kube/config
 
-            # 6. 배포 상태 확인
+            # 6. [중요] 새 이미지를 가져오기 위해 강제 재시작 (Rollout Restart)
+            kubectl rollout restart deployment django-deployment --kubeconfig ~/.kube/config
+
+            # 7. 배포 상태 확인
             echo "Deployment triggered!"
             kubectl get pods --kubeconfig ~/.kube/config
